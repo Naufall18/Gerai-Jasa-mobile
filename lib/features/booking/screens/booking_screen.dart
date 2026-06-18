@@ -1,0 +1,303 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import '../../../shared/providers/booking_provider.dart';
+import '../../../shared/providers/vendor_provider.dart';
+
+class BookingScreen extends ConsumerStatefulWidget {
+  final String vendorId;
+  final String serviceId;
+
+  const BookingScreen({
+    super.key,
+    required this.vendorId,
+    required this.serviceId,
+  });
+
+  @override
+  ConsumerState<BookingScreen> createState() => _BookingScreenState();
+}
+
+class _BookingScreenState extends ConsumerState<BookingScreen> {
+  DateTime _selectedDate = DateTime.now().add(const Duration(days: 1));
+  String? _selectedSlotId;
+  String? _selectedSlotTime;
+  final TextEditingController _notesController = TextEditingController();
+  final TextEditingController _specialRequestsController = TextEditingController();
+  String _paymentMethod = 'cod';
+  bool _isSubmitting = false;
+
+  @override
+  void dispose() {
+    _notesController.dispose();
+    _specialRequestsController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submitBooking() async {
+    if (_selectedSlotId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Silakan pilih slot waktu terlebih dahulu.')),
+      );
+      return;
+    }
+
+    setState(() {
+      _isSubmitting = true;
+    });
+
+    try {
+      final success = await ref.read(bookingsProvider.notifier).createBooking(
+            vendorId: widget.vendorId,
+            serviceId: widget.serviceId,
+            timeSlotId: _selectedSlotId!,
+            paymentMethod: _paymentMethod,
+            notes: _notesController.text,
+            specialRequests: _specialRequestsController.text,
+          );
+
+      if (success && mounted) {
+        // Go to success screen or payment webview screen if midtrans/xendit
+        // For COD or others, go to bookings page or success screen
+        context.go('/bookings');
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Gagal membuat booking. Silakan coba lagi.')),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSubmitting = false;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final dateStr = DateFormat('yyyy-MM-dd').format(_selectedDate);
+    final slotsAsync = ref.watch(vendorSlotsProvider(
+      vendorId: widget.vendorId,
+      serviceId: widget.serviceId,
+      date: dateStr,
+    ));
+
+    return Scaffold(
+      backgroundColor: const Color(0xfff8f7ff),
+      appBar: AppBar(
+        title: const Text('Buat Booking', style: TextStyle(color: Color(0xff1e1b4b), fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Color(0xff1e1b4b)),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // 1. Select Date
+              const Text(
+                'Pilih Tanggal',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+              ),
+              const SizedBox(height: 10),
+              InkWell(
+                onTap: () async {
+                  final picked = await showDatePicker(
+                    context: context,
+                    initialDate: _selectedDate,
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime.now().add(const Duration(days: 30)),
+                  );
+                  if (picked != null) {
+                    setState(() {
+                      _selectedDate = picked;
+                      _selectedSlotId = null;
+                      _selectedSlotTime = null;
+                    });
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey.shade200),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.between,
+                    children: [
+                      Text(
+                        DateFormat('EEEE, d MMMM yyyy').format(_selectedDate),
+                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+                      ),
+                      const Icon(Icons.calendar_today_rounded, color: Color(0xff6366f1)),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // 2. Select Time Slots
+              const Text(
+                'Pilih Jam Layanan',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+              ),
+              const SizedBox(height: 10),
+              slotsAsync.when(
+                data: (slots) {
+                  if (slots.isEmpty) {
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20.0),
+                      child: Text('Tidak ada slot waktu yang tersedia untuk tanggal ini.', style: TextStyle(color: Colors.grey)),
+                    );
+                  }
+
+                  return Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: slots.map((slot) {
+                      final isSelected = _selectedSlotId == slot.id;
+                      return ChoiceChip(
+                        label: Text(slot.slotTime),
+                        selected: isSelected,
+                        onSelected: (selected) {
+                          setState(() {
+                            if (selected) {
+                              _selectedSlotId = slot.id;
+                              _selectedSlotTime = slot.slotTime;
+                            } else {
+                              _selectedSlotId = null;
+                              _selectedSlotTime = null;
+                            }
+                          });
+                        },
+                        selectedColor: const Color(0xff6366f1),
+                        textColor: isSelected ? Colors.white : const Color(0xff1e1b4b),
+                        backgroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side: BorderSide(color: isSelected ? Colors.transparent : Colors.grey.shade200),
+                        ),
+                      );
+                    }).toList(),
+                  );
+                },
+                loading: () => const Center(child: CircularProgressIndicator(color: Color(0xff6366f1))),
+                error: (err, stack) => Text('Error: $err', style: const TextStyle(color: Colors.red)),
+              ),
+              const SizedBox(height: 24),
+
+              // 3. Notes / Special Request
+              const Text(
+                'Catatan Tambahan',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: _notesController,
+                maxLines: 2,
+                decoration: InputDecoration(
+                  hintText: 'Tulis catatan untuk vendor di sini...',
+                  fillColor: Colors.white,
+                  filled: true,
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                  contentPadding: const EdgeInsets.all(16),
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Permintaan Khusus',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: _specialRequestsController,
+                maxLines: 2,
+                decoration: InputDecoration(
+                  hintText: 'Tulis permintaan khusus jika ada...',
+                  fillColor: Colors.white,
+                  filled: true,
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+                  contentPadding: const EdgeInsets.all(16),
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // 4. Payment Method
+              const Text(
+                'Metode Pembayaran',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+              ),
+              const SizedBox(height: 10),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  children: [
+                    RadioListTile<String>(
+                      value: 'cod',
+                      groupValue: _paymentMethod,
+                      title: const Text('COD (Bayar di Tempat)', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xff1e1b4b))),
+                      subtitle: const Text('Bayar langsung ke vendor setelah layanan selesai'),
+                      activeColor: const Color(0xff6366f1),
+                      onChanged: (val) {
+                        setState(() {
+                          _paymentMethod = val!;
+                        });
+                      },
+                    ),
+                    const Divider(height: 1),
+                    RadioListTile<String>(
+                      value: 'midtrans',
+                      groupValue: _paymentMethod,
+                      title: const Text('Midtrans', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xff1e1b4b))),
+                      subtitle: const Text('Bayar via Transfer Bank, GoPay, atau E-Wallet lainnya'),
+                      activeColor: const Color(0xff6366f1),
+                      onChanged: (val) {
+                        setState(() {
+                          _paymentMethod = val!;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 40),
+
+              // Submit Button
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: _isSubmitting ? null : _submitBooking,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xff6366f1),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                  child: _isSubmitting
+                      ? const CircularProgressIndicator(color: Colors.white)
+                      : const Text('Konfirmasi Booking', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
