@@ -3,7 +3,7 @@ import '../../core/api/api_client.dart';
 import '../models/models.dart';
 
 class BookingsState {
-  final List<Booking> bookings;
+  final List<BookingModel> bookings;
   final bool isLoading;
   final String? error;
 
@@ -14,7 +14,7 @@ class BookingsState {
   });
 
   BookingsState copyWith({
-    List<Booking>? bookings,
+    List<BookingModel>? bookings,
     bool? isLoading,
     String? error,
   }) {
@@ -38,7 +38,7 @@ class BookingsNotifier extends StateNotifier<BookingsState> {
     try {
       final response = await _apiClient.get('/bookings');
       final list = response.data['data'] as List;
-      final bookingsList = list.map((json) => Booking.fromJson(json)).toList();
+      final bookingsList = list.map((json) => BookingModel.fromJson(json)).toList();
       state = BookingsState(bookings: bookingsList, isLoading: false);
     } catch (e) {
       state = BookingsState(
@@ -49,12 +49,13 @@ class BookingsNotifier extends StateNotifier<BookingsState> {
     }
   }
 
-  Future<Booking?> createBooking({
+  Future<BookingModel?> createBooking({
     required String vendorId,
     required String serviceId,
     required String timeSlotId,
     required String paymentMethod,
     String? notes,
+    String? specialRequests,
   }) async {
     state = state.copyWith(isLoading: true);
     try {
@@ -64,8 +65,9 @@ class BookingsNotifier extends StateNotifier<BookingsState> {
         'time_slot_id': timeSlotId,
         'payment_method': paymentMethod,
         'notes': notes,
+        'special_requests': specialRequests,
       });
-      final booking = Booking.fromJson(response.data['data']);
+      final booking = BookingModel.fromJson(response.data['data']);
       await fetchBookings();
       return booking;
     } catch (e) {
@@ -94,8 +96,8 @@ final bookingsProvider = StateNotifierProvider<BookingsNotifier, BookingsState>(
   return BookingsNotifier(apiClient);
 });
 
-final bookingDetailProvider = FutureProvider.family<Booking, String>((ref, id) async {
+final bookingDetailProvider = FutureProvider.family<BookingModel, String>((ref, id) async {
   final apiClient = ref.watch(apiClientProvider);
   final response = await apiClient.get('/bookings/$id');
-  return Booking.fromJson(response.data['data']);
+  return BookingModel.fromJson(response.data['data']);
 });

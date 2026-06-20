@@ -367,3 +367,12 @@ class ReviewModel {
     };
   }
 }
+
+typedef Booking = BookingModel;
+typedef Vendor = VendorModel;
+typedef TimeSlot = TimeSlotModel;
+typedef Service = ServiceModel;
+typedef User = UserModel;
+typedef Category = CategoryModel;
+typedef VendorPhoto = VendorPhotoModel;
+typedef Review = ReviewModel;

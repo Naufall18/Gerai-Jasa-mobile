@@ -99,7 +99,7 @@ class VendorDetailScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        vendor.description,
+                        vendor.description ?? '',
                         style: const TextStyle(color: Colors.grey, height: 1.5),
                       ),
                       const SizedBox(height: 16),

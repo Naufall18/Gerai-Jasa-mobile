@@ -57,10 +57,22 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
             specialRequests: _specialRequestsController.text,
           );
 
-      if (success && mounted) {
-        // Go to success screen or payment webview screen if midtrans/xendit
-        // For COD or others, go to bookings page or success screen
-        context.go('/bookings');
+      if (success != null && mounted) {
+        if (_paymentMethod == 'midtrans') {
+          context.go('/payment', extra: {
+            'bookingId': success.id,
+            'totalPrice': success.totalPrice,
+            'vendorName': success.vendor?.name ?? 'Vendor',
+          });
+        } else {
+          context.go('/success', extra: {
+            'bookingCode': success.bookingCode,
+            'vendorName': success.vendor?.name ?? 'Vendor',
+            'serviceName': success.service?.name ?? 'Layanan',
+            'date': success.timeSlot?.slotDate ?? '',
+            'time': success.timeSlot?.slotTime ?? '',
+          });
+        }
       } else {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -86,11 +98,11 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
   @override
   Widget build(BuildContext context) {
     final dateStr = DateFormat('yyyy-MM-dd').format(_selectedDate);
-    final slotsAsync = ref.watch(vendorSlotsProvider(
+    final slotsAsync = ref.watch(availableSlotsProvider((
       vendorId: widget.vendorId,
       serviceId: widget.serviceId,
       date: dateStr,
-    ));
+    )));
 
     return Scaffold(
       backgroundColor: const Color(0xfff8f7ff),
@@ -136,7 +148,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                     border: Border.all(color: Colors.grey.shade200),
                   ),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.between,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         DateFormat('EEEE, d MMMM yyyy').format(_selectedDate),
@@ -184,7 +196,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                           });
                         },
                         selectedColor: const Color(0xff6366f1),
-                        textColor: isSelected ? Colors.white : const Color(0xff1e1b4b),
+                        labelStyle: TextStyle(color: isSelected ? Colors.white : const Color(0xff1e1b4b)),
                         backgroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),

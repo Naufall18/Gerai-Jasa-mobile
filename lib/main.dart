@@ -21,7 +21,7 @@ class GeraiJasaApp extends ConsumerWidget {
 
     return MaterialApp.router(
       title: 'Gerai Jasa',
-      theme: AppTheme.theme,
+      theme: AppTheme.lightTheme,
       routerConfig: router,
       debugShowCheckedModeBanner: false,
     );

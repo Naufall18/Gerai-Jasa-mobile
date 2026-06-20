@@ -76,7 +76,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/vendor/:id',
         builder: (context, state) => VendorDetailScreen(
-          vendorId: state.pathParameters['id']!,
+          slug: state.pathParameters['id']!,
         ),
       ),
       GoRoute(

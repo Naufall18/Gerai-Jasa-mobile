@@ -59,7 +59,14 @@ final vendorFilterProvider = StateNotifierProvider<VendorFilterNotifier, VendorF
   return VendorFilterNotifier();
 });
 
-final vendorsListProvider = FutureProvider<List<Vendor>>((ref) async {
+final categoriesProvider = FutureProvider<List<CategoryModel>>((ref) async {
+  final apiClient = ref.watch(apiClientProvider);
+  final response = await apiClient.get('/categories');
+  final list = response.data['data'] as List;
+  return list.map((json) => CategoryModel.fromJson(json)).toList();
+});
+
+final vendorsListProvider = FutureProvider<List<VendorModel>>((ref) async {
   final filter = ref.watch(vendorFilterProvider);
   final apiClient = ref.watch(apiClientProvider);
 
@@ -73,16 +80,16 @@ final vendorsListProvider = FutureProvider<List<Vendor>>((ref) async {
 
   final response = await apiClient.get('/vendors', queryParameters: queryParameters);
   final list = response.data['data'] as List;
-  return list.map((json) => Vendor.fromJson(json)).toList();
+  return list.map((json) => VendorModel.fromJson(json)).toList();
 });
 
-final vendorDetailProvider = FutureProvider.family<Vendor, String>((ref, slug) async {
+final vendorDetailProvider = FutureProvider.family<VendorModel, String>((ref, slug) async {
   final apiClient = ref.watch(apiClientProvider);
   final response = await apiClient.get('/vendors/$slug');
-  return Vendor.fromJson(response.data['data']);
+  return VendorModel.fromJson(response.data['data']);
 });
 
-final availableSlotsProvider = FutureProvider.family<List<TimeSlot>, ({String vendorId, String serviceId, String date})>((ref, arg) async {
+final availableSlotsProvider = FutureProvider.family<List<TimeSlotModel>, ({String vendorId, String serviceId, String date})>((ref, arg) async {
   final apiClient = ref.watch(apiClientProvider);
   final response = await apiClient.get(
     '/vendors/${arg.vendorId}/slots',
@@ -92,5 +99,5 @@ final availableSlotsProvider = FutureProvider.family<List<TimeSlot>, ({String ve
     },
   );
   final list = response.data['data'] as List;
-  return list.map((json) => TimeSlot.fromJson(json)).toList();
+  return list.map((json) => TimeSlotModel.fromJson(json)).toList();
 });
