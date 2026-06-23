@@ -17,11 +17,13 @@ import '../../features/booking/screens/bookings_screen.dart';
 import '../../features/booking/screens/booking_detail_screen.dart';
 import '../../features/booking/screens/review_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
+import '../services/push_notification_service.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authProvider);
 
   return GoRouter(
+    navigatorKey: rootNavigatorKey,
     initialLocation: '/',
     redirect: (context, state) {
       final isAuth = authState.isAuthenticated;

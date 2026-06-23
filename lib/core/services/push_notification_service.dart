@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:go_router/go_router.dart';
 import '../api/api_client.dart';
 
 /// Global key so push handlers can surface a SnackBar from anywhere.
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
+
+/// Global navigator key shared with GoRouter so push handlers can navigate
+/// (deep link) without a BuildContext.
+final GlobalKey<NavigatorState> rootNavigatorKey =
+    GlobalKey<NavigatorState>();
 
 /// Background/terminated message handler. Must be a top-level function.
 @pragma('vm:entry-point')
@@ -53,10 +59,17 @@ class PushNotificationService {
         }
       });
 
-      // Tapped notification (app in background) — deep link handled in P1.
-      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-        debugPrint('FCM opened app: ${message.data}');
-      });
+      // Tapped notification while app is in background → deep link.
+      FirebaseMessaging.onMessageOpenedApp.listen(_handleDeepLink);
+
+      // App launched from terminated state by tapping a notification.
+      final initialMessage = await messaging.getInitialMessage();
+      if (initialMessage != null) {
+        // Defer until the first frame so the navigator is mounted.
+        WidgetsBinding.instance.addPostFrameCallback(
+          (_) => _handleDeepLink(initialMessage),
+        );
+      }
 
       _ready = true;
     } catch (e) {
@@ -85,6 +98,19 @@ class PushNotificationService {
       await apiClient.post('/auth/fcm-token', data: {'fcm_token': token});
     } catch (e) {
       debugPrint('registerToken failed: $e');
+    }
+  }
+
+  /// Navigate based on a notification payload. Backend sends a `data` map;
+  /// when it carries a `booking_id`, open the matching booking detail.
+  void _handleDeepLink(RemoteMessage message) {
+    final data = message.data;
+    final bookingId = data['booking_id'] ?? data['bookingId'];
+    final context = rootNavigatorKey.currentContext;
+    if (context == null) return;
+
+    if (bookingId != null && bookingId.toString().isNotEmpty) {
+      context.push('/booking-detail/$bookingId');
     }
   }
 
