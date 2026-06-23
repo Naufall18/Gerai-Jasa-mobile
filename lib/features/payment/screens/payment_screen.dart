@@ -1,7 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../core/api/api_client.dart';
+import 'payment_webview_screen.dart';
 
-class PaymentScreen extends StatefulWidget {
+class PaymentScreen extends ConsumerStatefulWidget {
   final String bookingId;
   final double totalPrice;
   final String vendorName;
@@ -14,28 +18,77 @@ class PaymentScreen extends StatefulWidget {
   });
 
   @override
-  State<PaymentScreen> createState() => _PaymentScreenState();
+  ConsumerState<PaymentScreen> createState() => _PaymentScreenState();
 }
 
-class _PaymentScreenState extends State<PaymentScreen> {
+class _PaymentScreenState extends ConsumerState<PaymentScreen> {
   bool _isPaying = false;
 
-  void _simulatePaymentSuccess() {
-    setState(() {
-      _isPaying = true;
-    });
+  Future<void> _startPayment() async {
+    setState(() => _isPaying = true);
+    try {
+      final api = ref.read(apiClientProvider);
+      final res = await api.post('/bookings/${widget.bookingId}/pay');
+      final data = res.data['data'] as Map<String, dynamic>?;
+      final redirectUrl = data?['redirect_url'] as String?;
 
-    Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) {
+      if (redirectUrl == null || redirectUrl.isEmpty) {
+        throw Exception('URL pembayaran tidak tersedia.');
+      }
+
+      if (!mounted) return;
+      final status = await Navigator.of(context).push<String?>(
+        MaterialPageRoute(
+          builder: (_) => PaymentWebViewScreen(redirectUrl: redirectUrl),
+        ),
+      );
+
+      if (!mounted) return;
+      _handlePaymentResult(status);
+    } on DioException catch (e) {
+      final msg = (e.response?.data is Map ? e.response?.data['message'] : null) ??
+          'Gagal memulai pembayaran. Periksa konfigurasi Midtrans.';
+      _showSnack(msg.toString(), isError: true);
+    } catch (e) {
+      _showSnack('Gagal memulai pembayaran: $e', isError: true);
+    } finally {
+      if (mounted) setState(() => _isPaying = false);
+    }
+  }
+
+  void _handlePaymentResult(String? status) {
+    switch (status) {
+      case 'settlement':
+      case 'capture':
         context.go('/success', extra: {
           'bookingCode': 'BKL-${widget.bookingId.substring(0, 8).toUpperCase()}',
           'vendorName': widget.vendorName,
           'serviceName': 'Layanan Pilihan',
-          'date': 'Besok',
-          'time': '10:00',
+          'date': '-',
+          'time': '-',
         });
-      }
-    });
+        break;
+      case 'pending':
+        _showSnack('Pembayaran tertunda. Selesaikan sebelum kedaluwarsa.');
+        context.go('/bookings');
+        break;
+      case null:
+        _showSnack('Pembayaran dibatalkan.');
+        break;
+      default:
+        _showSnack('Pembayaran gagal ($status).', isError: true);
+    }
+  }
+
+  void _showSnack(String message, {bool isError = false}) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: isError ? Colors.red.shade600 : null,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
   }
 
   @override
@@ -89,12 +142,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     const Divider(),
                     const SizedBox(height: 16),
                     const Text(
-                      'Simulasi Pembayaran Midtrans Snap',
+                      'Pembayaran via Midtrans',
                       style: TextStyle(fontWeight: FontWeight.w600, color: Color(0xff1e1b4b)),
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'Tekan tombol di bawah untuk menyimulasikan transaksi sukses menggunakan Midtrans.',
+                      'Anda akan diarahkan ke halaman pembayaran aman Midtrans.',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.grey, fontSize: 13),
                     ),
@@ -103,7 +156,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: _isPaying ? null : _simulatePaymentSuccess,
+                        onPressed: _isPaying ? null : _startPayment,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xff6366f1),
                           foregroundColor: Colors.white,
