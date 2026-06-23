@@ -1,6 +1,6 @@
-# Bookly Mobile App
+# Gerai Jasa Mobile App
 
-Flutter 3.x customer app for **Bookly** — a multi-vendor booking platform (salons, clinics, workshops, etc.) for the Indonesian market.
+Flutter 3.x customer app for **Gerai Jasa** — a multi-vendor booking platform (salons, clinics, workshops, etc.) for the Indonesian market.
 
 ## Tech Stack
 
@@ -75,8 +75,8 @@ lib/
 
 ```bash
 # Clone
-git clone https://github.com/Naufall18/bookly-mobile.git
-cd bookly-mobile
+git clone https://github.com/Naufall18/geraijasa-mobile.git
+cd geraijasa-mobile
 
 # Install dependencies
 flutter pub get
@@ -104,7 +104,7 @@ flutter build ios --release
 class AppConstants {
   static const String baseUrl = 'http://localhost:8000/api/v1';
   static const String midtransClientKey = '';
-  static const String appName = 'Bookly';
+  static const String appName = 'Gerai Jasa';
   static const int otpLength = 6;
   static const int otpTimeout = 60; // seconds
   static const int slotCacheSeconds = 60;
@@ -113,8 +113,8 @@ class AppConstants {
 
 ## Related Repositories
 
-- **Backend API**: [bookly-backend](https://github.com/Naufall18/bookly-backend) — Laravel 11 REST API
-- **Web Dashboard**: [bookly-web](https://github.com/Naufall18/bookly-web) — React 18 + TypeScript (Admin & Vendor Dashboard)
+- **Backend API**: [geraijasa-backend](https://github.com/Naufall18/geraijasa-backend) — Laravel 11 REST API
+- **Web Dashboard**: [geraijasa-web](https://github.com/Naufall18/geraijasa-web) — React 18 + TypeScript (Admin & Vendor Dashboard)
 
 ## License
 
