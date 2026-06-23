@@ -1,0 +1,108 @@
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import '../api/api_client.dart';
+
+/// Global key so push handlers can surface a SnackBar from anywhere.
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
+
+/// Background/terminated message handler. Must be a top-level function.
+@pragma('vm:entry-point')
+Future<void> _firebaseBackgroundHandler(RemoteMessage message) async {
+  // Keep minimal — heavy work here can be killed by the OS.
+  debugPrint('FCM background message: ${message.messageId}');
+}
+
+/// Thin wrapper around Firebase Messaging.
+///
+/// NOTE: Until `flutterfire configure` has generated `firebase_options.dart`
+/// and `google-services.json` is in place, [init] will fail to initialize
+/// Firebase — this is caught and logged so the app keeps running. Once those
+/// files exist, FCM starts working without further code changes.
+class PushNotificationService {
+  PushNotificationService._();
+  static final PushNotificationService instance = PushNotificationService._();
+
+  bool _ready = false;
+  bool get isReady => _ready;
+
+  /// Initialize Firebase + messaging. Safe to call before login.
+  Future<void> init() async {
+    try {
+      await Firebase.initializeApp();
+
+      final messaging = FirebaseMessaging.instance;
+
+      await messaging.requestPermission(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+
+      FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);
+
+      // Foreground messages → SnackBar
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        final notification = message.notification;
+        if (notification != null) {
+          _showSnackBar(
+            notification.title ?? 'Notifikasi',
+            notification.body ?? '',
+          );
+        }
+      });
+
+      // Tapped notification (app in background) — deep link handled in P1.
+      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+        debugPrint('FCM opened app: ${message.data}');
+      });
+
+      _ready = true;
+    } catch (e) {
+      // Firebase not configured yet (no firebase_options.dart / google-services.json).
+      debugPrint('PushNotificationService.init skipped: $e');
+      _ready = false;
+    }
+  }
+
+  /// Fetch the current device token, or null if FCM isn't ready.
+  Future<String?> getToken() async {
+    if (!_ready) return null;
+    try {
+      return await FirebaseMessaging.instance.getToken();
+    } catch (e) {
+      debugPrint('getToken failed: $e');
+      return null;
+    }
+  }
+
+  /// Send the device's FCM token to the backend. Call after a successful login.
+  Future<void> registerToken(ApiClient apiClient) async {
+    final token = await getToken();
+    if (token == null) return;
+    try {
+      await apiClient.post('/auth/fcm-token', data: {'fcm_token': token});
+    } catch (e) {
+      debugPrint('registerToken failed: $e');
+    }
+  }
+
+  void _showSnackBar(String title, String body) {
+    final messenger = scaffoldMessengerKey.currentState;
+    if (messenger == null) return;
+    messenger.showSnackBar(
+      SnackBar(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+            if (body.isNotEmpty) Text(body),
+          ],
+        ),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+}
