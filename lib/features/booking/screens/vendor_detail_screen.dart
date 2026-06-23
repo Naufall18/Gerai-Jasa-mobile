@@ -54,7 +54,7 @@ class VendorDetailScreen extends ConsumerWidget {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: const Color(0xfff97316).withOpacity(0.1),
+                              color: const Color(0xfff97316).withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Row(
@@ -76,7 +76,7 @@ class VendorDetailScreen extends ConsumerWidget {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: const Color(0xff6366f1).withOpacity(0.1),
+                              color: const Color(0xff6366f1).withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
@@ -188,8 +188,9 @@ class VendorDetailScreen extends ConsumerWidget {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  // Navigate to booking wizard screen
-                                  context.push('/vendors/${vendor.id}/book?service_id=${service.id}');
+                                  context.push(
+                                    '/booking/${vendor.id}/${service.id}',
+                                  );
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xff6366f1),

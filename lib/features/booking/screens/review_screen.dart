@@ -27,34 +27,39 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
   }
 
   Future<void> _submitReview() async {
-    setState(() {
-      _isSubmitting = true;
-    });
+    if (_commentController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Tulis komentar terlebih dahulu.')),
+      );
+      return;
+    }
+
+    setState(() => _isSubmitting = true);
 
     try {
       final apiClient = ref.read(apiClientProvider);
-      // Attempt to post review to API. Fallback to success simulation on failure.
-      try {
-        await apiClient.post('/bookings/${widget.bookingId}/reviews', data: {
-          'rating': _rating,
-          'comment': _commentController.text,
-        });
-      } catch (e) {
-        // Fallback simulation
-      }
+      await apiClient.post('/bookings/${widget.bookingId}/review', data: {
+        'rating': _rating,
+        'comment': _commentController.text.trim(),
+      });
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Terima kasih atas ulasan Anda!')),
+          const SnackBar(
+            content: Text('Terima kasih atas ulasan Anda! ⭐'),
+            backgroundColor: Color(0xff6366f1),
+          ),
         );
         context.pop();
       }
-    } finally {
+    } catch (e) {
       if (mounted) {
-        setState(() {
-          _isSubmitting = false;
-        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Gagal mengirim ulasan: $e')),
+        );
       }
+    } finally {
+      if (mounted) setState(() => _isSubmitting = false);
     }
   }
 

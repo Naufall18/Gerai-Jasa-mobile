@@ -157,6 +157,7 @@ class VendorModel {
   final String? description;
   final String address;
   final String city;
+  final String? categoryId;
   final double? lat;
   final double? lng;
   final double ratingAvg;
@@ -172,6 +173,7 @@ class VendorModel {
     this.description,
     required this.address,
     required this.city,
+    this.categoryId,
     this.lat,
     this.lng,
     required this.ratingAvg,
@@ -191,6 +193,7 @@ class VendorModel {
       description: json['description'],
       address: json['address'] ?? '',
       city: json['city'] ?? '',
+      categoryId: json['category_id'],
       lat: double.tryParse(json['lat'].toString()),
       lng: double.tryParse(json['lng'].toString()),
       ratingAvg: double.tryParse(json['rating_avg'].toString()) ?? 0.0,
@@ -209,6 +212,7 @@ class VendorModel {
       'description': description,
       'address': address,
       'city': city,
+      'category_id': categoryId,
       'lat': lat,
       'lng': lng,
       'rating_avg': ratingAvg,

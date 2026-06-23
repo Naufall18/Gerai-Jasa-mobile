@@ -22,7 +22,6 @@ class BookingScreen extends ConsumerStatefulWidget {
 class _BookingScreenState extends ConsumerState<BookingScreen> {
   DateTime _selectedDate = DateTime.now().add(const Duration(days: 1));
   String? _selectedSlotId;
-  String? _selectedSlotTime;
   final TextEditingController _notesController = TextEditingController();
   final TextEditingController _specialRequestsController = TextEditingController();
   String _paymentMethod = 'cod';
@@ -33,6 +32,56 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
     _notesController.dispose();
     _specialRequestsController.dispose();
     super.dispose();
+  }
+
+  Widget _buildPaymentOption({
+    required String value,
+    required String title,
+    required String subtitle,
+  }) {
+    final isSelected = _paymentMethod == value;
+    return InkWell(
+      onTap: () => setState(() => _paymentMethod = value),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        child: Row(
+          children: [
+            Container(
+              width: 22,
+              height: 22,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: isSelected ? const Color(0xff6366f1) : Colors.grey.shade400,
+                  width: 2,
+                ),
+              ),
+              child: isSelected
+                  ? const Center(
+                      child: CircleAvatar(
+                        radius: 6,
+                        backgroundColor: Color(0xff6366f1),
+                      ),
+                    )
+                  : null,
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, color: Color(0xff1e1b4b))),
+                  Text(subtitle,
+                      style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> _submitBooking() async {
@@ -188,10 +237,8 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                           setState(() {
                             if (selected) {
                               _selectedSlotId = slot.id;
-                              _selectedSlotTime = slot.slotTime;
                             } else {
                               _selectedSlotId = null;
-                              _selectedSlotTime = null;
                             }
                           });
                         },
@@ -260,30 +307,16 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                 ),
                 child: Column(
                   children: [
-                    RadioListTile<String>(
+                    _buildPaymentOption(
                       value: 'cod',
-                      groupValue: _paymentMethod,
-                      title: const Text('COD (Bayar di Tempat)', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xff1e1b4b))),
-                      subtitle: const Text('Bayar langsung ke vendor setelah layanan selesai'),
-                      activeColor: const Color(0xff6366f1),
-                      onChanged: (val) {
-                        setState(() {
-                          _paymentMethod = val!;
-                        });
-                      },
+                      title: 'COD (Bayar di Tempat)',
+                      subtitle: 'Bayar langsung ke vendor setelah layanan selesai',
                     ),
                     const Divider(height: 1),
-                    RadioListTile<String>(
+                    _buildPaymentOption(
                       value: 'midtrans',
-                      groupValue: _paymentMethod,
-                      title: const Text('Midtrans', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xff1e1b4b))),
-                      subtitle: const Text('Bayar via Transfer Bank, GoPay, atau E-Wallet lainnya'),
-                      activeColor: const Color(0xff6366f1),
-                      onChanged: (val) {
-                        setState(() {
-                          _paymentMethod = val!;
-                        });
-                      },
+                      title: 'Midtrans',
+                      subtitle: 'Bayar via Transfer Bank, GoPay, atau E-Wallet lainnya',
                     ),
                   ],
                 ),

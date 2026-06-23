@@ -53,7 +53,8 @@ class _BookingDetailScreenState extends ConsumerState<BookingDetailScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Booking berhasil dibatalkan.')),
           );
-          ref.refresh(bookingDetailProvider(widget.bookingId));
+          // ignore: unused_result — intentional rebuild trigger
+          ref.invalidate(bookingDetailProvider(widget.bookingId));
         } else {
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -144,7 +145,7 @@ class _BookingDetailScreenState extends ConsumerState<BookingDetailScreen> {
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                               decoration: BoxDecoration(
-                                color: _getStatusColor(booking.status).withOpacity(0.1),
+                                color: _getStatusColor(booking.status).withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Text(

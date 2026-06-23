@@ -31,6 +31,7 @@ class ApiClient {
         onError: (DioException e, handler) async {
           if (e.response?.statusCode == 401) {
             await _storage.delete(key: 'auth_token');
+            // Note: Navigation to login is handled by the router's redirect
           }
           return handler.next(e);
         },
