@@ -185,7 +185,6 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                     setState(() {
                       _selectedDate = picked;
                       _selectedSlotId = null;
-                      _selectedSlotTime = null;
                     });
                   }
                 },
