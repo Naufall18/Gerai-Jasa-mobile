@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../shared/providers/booking_provider.dart';
+import '../../../core/widgets/gj_widgets.dart';
 
 class BookingDetailScreen extends ConsumerStatefulWidget {
   final String bookingId;
@@ -286,7 +287,23 @@ class _BookingDetailScreenState extends ConsumerState<BookingDetailScreen> {
             ),
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator(color: Color(0xFF1E6F5C))),
+        loading: () => SingleChildScrollView(
+          child: GJShimmer(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GJShimmer.box(width: double.infinity, height: 96, radius: 16),
+                  const SizedBox(height: 16),
+                  GJShimmer.box(width: double.infinity, height: 140, radius: 16),
+                  const SizedBox(height: 16),
+                  GJShimmer.box(width: double.infinity, height: 120, radius: 16),
+                ],
+              ),
+            ),
+          ),
+        ),
         error: (err, stack) => Center(child: Text('Error: $err', style: const TextStyle(color: Colors.red))),
       ),
     );
