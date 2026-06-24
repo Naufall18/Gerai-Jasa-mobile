@@ -1,30 +1,24 @@
-// This is a basic Flutter widget test.
+// Smoke tests untuk Gerai Jasa.
 //
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+// Catatan: belum ada widget/integration test yang berarti untuk aplikasi ini.
+// Test penuh aplikasi memerlukan mock platform channel (FlutterSecureStorage,
+// Firebase) dan override Riverpod provider. Untuk saat ini test berikut
+// memvalidasi konfigurasi inti tanpa dependensi platform.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:mobile/main.dart';
+import 'package:mobile/core/constants/app_constants.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const GeraiJasaApp());
+  group('AppConstants', () {
+    test('baseUrl adalah URL API http(s) yang valid', () {
+      expect(AppConstants.baseUrl, startsWith('http'));
+      expect(AppConstants.baseUrl, contains('/api/v1'));
+    });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    test('metadata aplikasi masuk akal', () {
+      expect(AppConstants.appName, isNotEmpty);
+      expect(AppConstants.otpLength, greaterThan(0));
+      expect(AppConstants.otpTimeout, greaterThan(0));
+    });
   });
 }
