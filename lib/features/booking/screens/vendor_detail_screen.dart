@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../shared/providers/vendor_provider.dart';
+import '../../../core/widgets/gj_widgets.dart';
 
 class VendorDetailScreen extends ConsumerWidget {
   final String slug;
@@ -32,12 +33,16 @@ class VendorDetailScreen extends ConsumerWidget {
                       shadows: [Shadow(color: Colors.black45, blurRadius: 4)],
                     ),
                   ),
-                  background: Image.network(
-                    imageUrl,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Container(
-                      color: Colors.grey.shade300,
-                      child: const Icon(Icons.image, size: 50, color: Colors.grey),
+                  background: Hero(
+                    tag: 'vendor-$slug',
+                    child: Image.network(
+                      imageUrl,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      errorBuilder: (context, error, stackTrace) => Container(
+                        color: Colors.grey.shade300,
+                        child: const Icon(Icons.image, size: 50, color: Colors.grey),
+                      ),
                     ),
                   ),
                 ),
@@ -214,7 +219,32 @@ class VendorDetailScreen extends ConsumerWidget {
             ],
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator(color: Color(0xFF1E6F5C))),
+        loading: () => SingleChildScrollView(
+          child: GJShimmer(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GJShimmer.box(width: double.infinity, height: 240, radius: 0),
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      GJShimmer.box(width: 180, height: 18),
+                      const SizedBox(height: 12),
+                      GJShimmer.box(width: double.infinity, height: 12),
+                      const SizedBox(height: 8),
+                      GJShimmer.box(width: double.infinity, height: 12),
+                      const SizedBox(height: 24),
+                      GJShimmer.vendorCard(),
+                      GJShimmer.vendorCard(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
         error: (err, stack) => Center(child: Text('Error: $err')),
       ),
     );
