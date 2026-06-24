@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../features/auth/providers/auth_provider.dart';
 import '../../../shared/providers/vendor_provider.dart';
+import '../../../core/widgets/gj_widgets.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -292,10 +293,12 @@ class HomeScreen extends ConsumerWidget {
                 vendorsAsync.when(
                   data: (vendors) {
                     if (vendors.isEmpty) {
-                      return const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(32.0),
-                          child: Text('Tidak ada vendor ditemukan.', style: TextStyle(color: Colors.grey)),
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                        child: GJEmptyState(
+                          icon: Icons.storefront_outlined,
+                          title: 'Belum ada vendor',
+                          subtitle: 'Vendor yang tersedia akan muncul di sini.',
                         ),
                       );
                     }
@@ -388,10 +391,20 @@ class HomeScreen extends ConsumerWidget {
                       },
                     );
                   },
-                  loading: () => const Center(child: Padding(
-                    padding: EdgeInsets.all(32),
-                    child: CircularProgressIndicator(color: Color(0xFF1E6F5C)),
-                  )),
+                  loading: () => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: GJShimmer(
+                      child: Column(
+                        children: List.generate(
+                          3,
+                          (_) => Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: GJShimmer.vendorCard(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   error: (err, stack) => Center(child: Text('Error: $err')),
                 ),
                 const SizedBox(height: 24),

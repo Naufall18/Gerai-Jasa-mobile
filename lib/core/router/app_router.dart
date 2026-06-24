@@ -18,6 +18,9 @@ import '../../features/booking/screens/booking_detail_screen.dart';
 import '../../features/booking/screens/review_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
 import '../services/push_notification_service.dart';
+import '../widgets/gj_bottom_nav.dart';
+
+final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authProvider);
@@ -67,13 +70,17 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/profile-setup',
         builder: (context, state) => const ProfileSetupScreen(),
       ),
-      GoRoute(
-        path: '/home',
-        builder: (context, state) => const HomeScreen(),
-      ),
-      GoRoute(
-        path: '/search',
-        builder: (context, state) => const SearchScreen(),
+      // ── Tab utama dengan bottom-nav persisten ──
+      ShellRoute(
+        navigatorKey: _shellNavigatorKey,
+        builder: (context, state, child) =>
+            GJScaffoldWithNav(location: state.uri.path, child: child),
+        routes: [
+          GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
+          GoRoute(path: '/search', builder: (context, state) => const SearchScreen()),
+          GoRoute(path: '/bookings', builder: (context, state) => const BookingsScreen()),
+          GoRoute(path: '/profile', builder: (context, state) => const ProfileScreen()),
+        ],
       ),
       GoRoute(
         path: '/vendor/:id',
@@ -113,10 +120,6 @@ final routerProvider = Provider<GoRouter>((ref) {
         },
       ),
       GoRoute(
-        path: '/bookings',
-        builder: (context, state) => const BookingsScreen(),
-      ),
-      GoRoute(
         path: '/booking-detail/:id',
         builder: (context, state) => BookingDetailScreen(
           bookingId: state.pathParameters['id']!,
@@ -127,10 +130,6 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => ReviewScreen(
           bookingId: state.pathParameters['id']!,
         ),
-      ),
-      GoRoute(
-        path: '/profile',
-        builder: (context, state) => const ProfileScreen(),
       ),
     ],
   );

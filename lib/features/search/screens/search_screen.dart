@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../shared/providers/vendor_provider.dart';
+import '../../../core/widgets/gj_widgets.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key});
@@ -140,24 +141,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             child: vendorsAsync.when(
               data: (_) {
                 if (filteredVendors.isEmpty) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.search_off_rounded, size: 64, color: Colors.grey.shade400),
-                        const SizedBox(height: 16),
-                        const Text(
-                          'Vendor tidak ditemukan',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
-                        ),
-                        const SizedBox(height: 4),
-                        const Text(
-                          'Coba gunakan kata kunci atau kategori lain.',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      ],
-                    ),
+                  return const GJEmptyState(
+                    icon: Icons.search_off_rounded,
+                    title: 'Vendor tidak ditemukan',
+                    subtitle: 'Coba gunakan kata kunci atau kategori lain.',
                   );
                 }
 
@@ -259,8 +246,17 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   },
                 );
               },
-              loading: () => const Center(
-                child: CircularProgressIndicator(color: Color(0xFF1E6F5C)),
+              loading: () => GJShimmer(
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  children: List.generate(
+                    5,
+                    (_) => Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: GJShimmer.vendorCard(),
+                    ),
+                  ),
+                ),
               ),
               error: (err, stack) => Center(
                 child: Text('Error: $err', style: const TextStyle(color: Colors.red)),

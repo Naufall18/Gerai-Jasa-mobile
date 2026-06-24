@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../../shared/providers/booking_provider.dart';
 import '../../../shared/models/models.dart';
+import '../../../core/widgets/gj_widgets.dart';
 
 class BookingsScreen extends ConsumerWidget {
   const BookingsScreen({super.key});
@@ -95,24 +96,12 @@ class _BookingList extends StatelessWidget {
         onRefresh: onRefresh,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
-          child: Container(
+          child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.6,
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.calendar_today_rounded, size: 64, color: Colors.grey.shade300),
-                const SizedBox(height: 16),
-                const Text(
-                  'Tidak ada booking',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
-                ),
-                const SizedBox(height: 4),
-                const Text(
-                  'Semua riwayat booking Anda akan muncul di sini.',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ],
+            child: const GJEmptyState(
+              icon: Icons.event_note_outlined,
+              title: 'Tidak ada booking',
+              subtitle: 'Semua riwayat booking Anda akan muncul di sini.',
             ),
           ),
         ),
