@@ -12,9 +12,9 @@ class ProfileScreen extends ConsumerWidget {
     final user = authState.user;
 
     return Scaffold(
-      backgroundColor: const Color(0xfff8f7ff),
+      backgroundColor: const Color(0xFFFBFAF7),
       appBar: AppBar(
-        title: const Text('Profil Saya', style: TextStyle(color: Color(0xff1e1b4b), fontWeight: FontWeight.bold)),
+        title: const Text('Profil Saya', style: TextStyle(color: Color(0xFF14241F), fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
         elevation: 0,
       ),
@@ -30,8 +30,8 @@ class ProfileScreen extends ConsumerWidget {
                 children: [
                   CircleAvatar(
                     radius: 40,
-                    backgroundColor: const Color(0xff6366f1).withOpacity(0.1),
-                    child: const Icon(Icons.person_rounded, size: 40, color: Color(0xff6366f1)),
+                    backgroundColor: const Color(0xFF1E6F5C).withOpacity(0.1),
+                    child: const Icon(Icons.person_rounded, size: 40, color: Color(0xFF1E6F5C)),
                   ),
                   const SizedBox(height: 16),
                   Text(
@@ -39,7 +39,7 @@ class ProfileScreen extends ConsumerWidget {
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff1e1b4b),
+                      color: Color(0xFF14241F),
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -150,8 +150,8 @@ class _ProfileMenuItem extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.onTap,
-    this.iconColor = const Color(0xff6366f1),
-    this.titleColor = const Color(0xff1e1b4b),
+    this.iconColor = const Color(0xFF1E6F5C),
+    this.titleColor = const Color(0xFF14241F),
     this.showTrailing = true,
   });
 

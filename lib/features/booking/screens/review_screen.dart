@@ -47,7 +47,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Terima kasih atas ulasan Anda! ⭐'),
-            backgroundColor: Color(0xff6366f1),
+            backgroundColor: Color(0xFF1E6F5C),
           ),
         );
         context.pop();
@@ -66,12 +66,12 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfff8f7ff),
+      backgroundColor: const Color(0xFFFBFAF7),
       appBar: AppBar(
-        title: const Text('Tulis Ulasan', style: TextStyle(color: Color(0xff1e1b4b), fontWeight: FontWeight.bold)),
+        title: const Text('Tulis Ulasan', style: TextStyle(color: Color(0xFF14241F), fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Color(0xff1e1b4b)),
+        iconTheme: const IconThemeData(color: Color(0xFF14241F)),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -81,7 +81,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
             children: [
               const Text(
                 'Bagaimana pengalaman Anda?',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
               ),
               const SizedBox(height: 8),
               const Text(
@@ -103,7 +103,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
                       icon: Icon(
                         starRating <= _rating ? Icons.star_rounded : Icons.star_outline_rounded,
                         size: 48,
-                        color: const Color(0xfff97316),
+                        color: const Color(0xFFF2A444),
                       ),
                     );
                   }),
@@ -112,7 +112,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
               const SizedBox(height: 32),
               const Text(
                 'Komentar Anda',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
               ),
               const SizedBox(height: 10),
               TextField(
@@ -133,7 +133,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
                 child: ElevatedButton(
                   onPressed: _isSubmitting ? null : _submitReview,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff6366f1),
+                    backgroundColor: const Color(0xFF1E6F5C),
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),

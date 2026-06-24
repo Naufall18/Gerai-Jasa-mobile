@@ -36,7 +36,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           });
         },
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: const Color(0xff6366f1),
+        selectedItemColor: const Color(0xFF1E6F5C),
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
         items: const [

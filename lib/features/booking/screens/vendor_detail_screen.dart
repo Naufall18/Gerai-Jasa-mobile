@@ -13,7 +13,7 @@ class VendorDetailScreen extends ConsumerWidget {
     final detailAsync = ref.watch(vendorDetailProvider(slug));
 
     return Scaffold(
-      backgroundColor: const Color(0xfff8f7ff),
+      backgroundColor: const Color(0xFFFBFAF7),
       body: detailAsync.when(
         data: (vendor) {
           final imageUrl = vendor.photos.isNotEmpty ? vendor.photos.first.url : 'https://picsum.photos/600/400';
@@ -22,7 +22,7 @@ class VendorDetailScreen extends ConsumerWidget {
               SliverAppBar(
                 expandedHeight: 240,
                 pinned: true,
-                backgroundColor: const Color(0xff6366f1),
+                backgroundColor: const Color(0xFF1E6F5C),
                 flexibleSpace: FlexibleSpaceBar(
                   title: Text(
                     vendor.name,
@@ -54,17 +54,17 @@ class VendorDetailScreen extends ConsumerWidget {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: const Color(0xfff97316).withValues(alpha: 0.1),
+                              color: const Color(0xFFF2A444).withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Row(
                               children: [
-                                const Icon(Icons.star_rounded, size: 16, color: Color(0xfff97316)),
+                                const Icon(Icons.star_rounded, size: 16, color: Color(0xFFF2A444)),
                                 const SizedBox(width: 4),
                                 Text(
                                   '${vendor.ratingAvg} (${vendor.ratingCount} Ulasan)',
                                   style: const TextStyle(
-                                    color: Color(0xfff97316),
+                                    color: Color(0xFFF2A444),
                                     fontWeight: FontWeight.bold,
                                     fontSize: 12,
                                   ),
@@ -76,13 +76,13 @@ class VendorDetailScreen extends ConsumerWidget {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: const Color(0xff6366f1).withValues(alpha: 0.1),
+                              color: const Color(0xFF1E6F5C).withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Text(
                               vendor.city,
                               style: const TextStyle(
-                                color: Color(0xff6366f1),
+                                color: Color(0xFF1E6F5C),
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12,
                               ),
@@ -95,7 +95,7 @@ class VendorDetailScreen extends ConsumerWidget {
                       // Description
                       const Text(
                         'Tentang Vendor',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
                       ),
                       const SizedBox(height: 8),
                       Text(
@@ -107,13 +107,13 @@ class VendorDetailScreen extends ConsumerWidget {
                       // Address
                       const Text(
                         'Alamat',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
                       ),
                       const SizedBox(height: 8),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Icon(Icons.location_on_rounded, color: Color(0xff6366f1), size: 20),
+                          const Icon(Icons.location_on_rounded, color: Color(0xFF1E6F5C), size: 20),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
@@ -128,7 +128,7 @@ class VendorDetailScreen extends ConsumerWidget {
                       // Services
                       const Text(
                         'Layanan Tersedia',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
                       ),
                       const SizedBox(height: 12),
                     ],
@@ -158,7 +158,7 @@ class VendorDetailScreen extends ConsumerWidget {
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
-                                        color: Color(0xff1e1b4b),
+                                        color: Color(0xFF14241F),
                                       ),
                                     ),
                                     const SizedBox(height: 4),
@@ -176,7 +176,7 @@ class VendorDetailScreen extends ConsumerWidget {
                                         Text(
                                           'Rp ${service.price.toStringAsFixed(0)}',
                                           style: const TextStyle(
-                                            color: Color(0xff6366f1),
+                                            color: Color(0xFF1E6F5C),
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15,
                                           ),
@@ -193,7 +193,7 @@ class VendorDetailScreen extends ConsumerWidget {
                                   );
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xff6366f1),
+                                  backgroundColor: const Color(0xFF1E6F5C),
                                   foregroundColor: Colors.white,
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                 ),
@@ -214,7 +214,7 @@ class VendorDetailScreen extends ConsumerWidget {
             ],
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator(color: Color(0xff6366f1))),
+        loading: () => const Center(child: CircularProgressIndicator(color: Color(0xFF1E6F5C))),
         error: (err, stack) => Center(child: Text('Error: $err')),
       ),
     );

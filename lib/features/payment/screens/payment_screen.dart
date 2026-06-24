@@ -94,12 +94,12 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfff8f7ff),
+      backgroundColor: const Color(0xFFFBFAF7),
       appBar: AppBar(
-        title: const Text('Pembayaran', style: TextStyle(color: Color(0xff1e1b4b), fontWeight: FontWeight.bold)),
+        title: const Text('Pembayaran', style: TextStyle(color: Color(0xFF14241F), fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Color(0xff1e1b4b)),
+        iconTheme: const IconThemeData(color: Color(0xFF14241F)),
       ),
       body: Center(
         child: Padding(
@@ -124,11 +124,11 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.payment_rounded, size: 64, color: Color(0xff6366f1)),
+                    const Icon(Icons.payment_rounded, size: 64, color: Color(0xFF1E6F5C)),
                     const SizedBox(height: 16),
                     Text(
                       widget.vendorName,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 8),
@@ -136,14 +136,14 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
                     const SizedBox(height: 4),
                     Text(
                       'Rp ${widget.totalPrice.toStringAsFixed(0)}',
-                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xfff97316)),
+                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFFF2A444)),
                     ),
                     const SizedBox(height: 24),
                     const Divider(),
                     const SizedBox(height: 16),
                     const Text(
                       'Pembayaran via Midtrans',
-                      style: TextStyle(fontWeight: FontWeight.w600, color: Color(0xff1e1b4b)),
+                      style: TextStyle(fontWeight: FontWeight.w600, color: Color(0xFF14241F)),
                     ),
                     const SizedBox(height: 8),
                     const Text(
@@ -158,7 +158,7 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
                       child: ElevatedButton(
                         onPressed: _isPaying ? null : _startPayment,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xff6366f1),
+                          backgroundColor: const Color(0xFF1E6F5C),
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),

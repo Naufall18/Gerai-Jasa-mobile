@@ -65,10 +65,10 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
       canPop: true,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Pembayaran', style: TextStyle(color: Color(0xff1e1b4b), fontWeight: FontWeight.bold)),
+          title: const Text('Pembayaran', style: TextStyle(color: Color(0xFF14241F), fontWeight: FontWeight.bold)),
           backgroundColor: Colors.white,
           elevation: 0,
-          iconTheme: const IconThemeData(color: Color(0xff1e1b4b)),
+          iconTheme: const IconThemeData(color: Color(0xFF14241F)),
         ),
         body: Stack(
           children: [

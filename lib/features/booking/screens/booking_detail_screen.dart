@@ -100,12 +100,12 @@ class _BookingDetailScreenState extends ConsumerState<BookingDetailScreen> {
     final detailAsync = ref.watch(bookingDetailProvider(widget.bookingId));
 
     return Scaffold(
-      backgroundColor: const Color(0xfff8f7ff),
+      backgroundColor: const Color(0xFFFBFAF7),
       appBar: AppBar(
-        title: const Text('Detail Booking', style: TextStyle(color: Color(0xff1e1b4b), fontWeight: FontWeight.bold)),
+        title: const Text('Detail Booking', style: TextStyle(color: Color(0xFF14241F), fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Color(0xff1e1b4b)),
+        iconTheme: const IconThemeData(color: Color(0xFF14241F)),
       ),
       body: detailAsync.when(
         data: (booking) {
@@ -139,7 +139,7 @@ class _BookingDetailScreenState extends ConsumerState<BookingDetailScreen> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'monospace',
-                                color: Color(0xff6366f1),
+                                color: Color(0xFF1E6F5C),
                               ),
                             ),
                             Container(
@@ -183,7 +183,7 @@ class _BookingDetailScreenState extends ConsumerState<BookingDetailScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Informasi Layanan', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xff1e1b4b), fontSize: 15)),
+                        const Text('Informasi Layanan', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF14241F), fontSize: 15)),
                         const SizedBox(height: 16),
                         _buildInfoRow('Vendor', booking.vendor?.name ?? '-'),
                         const Divider(height: 24),
@@ -209,7 +209,7 @@ class _BookingDetailScreenState extends ConsumerState<BookingDetailScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Informasi Pembayaran', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xff1e1b4b), fontSize: 15)),
+                        const Text('Informasi Pembayaran', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF14241F), fontSize: 15)),
                         const SizedBox(height: 16),
                         _buildInfoRow('Metode', booking.paymentMethod.toUpperCase()),
                         const Divider(height: 24),
@@ -219,7 +219,7 @@ class _BookingDetailScreenState extends ConsumerState<BookingDetailScreen> {
                             const Text('Total Harga', style: TextStyle(color: Colors.grey)),
                             Text(
                               'Rp ${booking.totalPrice.toStringAsFixed(0)}',
-                              style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xfff97316), fontSize: 16),
+                              style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFFF2A444), fontSize: 16),
                             ),
                           ],
                         ),
@@ -241,9 +241,9 @@ class _BookingDetailScreenState extends ConsumerState<BookingDetailScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Catatan Pelanggan', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xff1e1b4b), fontSize: 15)),
+                          const Text('Catatan Pelanggan', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF14241F), fontSize: 15)),
                           const SizedBox(height: 8),
-                          Text(booking.notes!, style: const TextStyle(color: Color(0xff1e1b4b))),
+                          Text(booking.notes!, style: const TextStyle(color: Color(0xFF14241F))),
                         ],
                       ),
                     ),
@@ -274,7 +274,7 @@ class _BookingDetailScreenState extends ConsumerState<BookingDetailScreen> {
                       child: ElevatedButton(
                         onPressed: () => context.push('/review/${booking.id}'),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xff6366f1),
+                          backgroundColor: const Color(0xFF1E6F5C),
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
@@ -286,7 +286,7 @@ class _BookingDetailScreenState extends ConsumerState<BookingDetailScreen> {
             ),
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator(color: Color(0xff6366f1))),
+        loading: () => const Center(child: CircularProgressIndicator(color: Color(0xFF1E6F5C))),
         error: (err, stack) => Center(child: Text('Error: $err', style: const TextStyle(color: Colors.red))),
       ),
     );
@@ -297,7 +297,7 @@ class _BookingDetailScreenState extends ConsumerState<BookingDetailScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(label, style: const TextStyle(color: Colors.grey)),
-        Text(value, style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xff1e1b4b))),
+        Text(value, style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF14241F))),
       ],
     );
   }
