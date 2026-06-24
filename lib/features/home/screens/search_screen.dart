@@ -24,14 +24,14 @@ class SearchScreen extends ConsumerWidget {
     final filter = ref.watch(vendorFilterProvider);
 
     return Scaffold(
-      backgroundColor: const Color(0xfff8f7ff),
+      backgroundColor: const Color(0xFFFBFAF7),
       appBar: AppBar(
-        title: const Text('Cari Layanan', style: TextStyle(color: Color(0xff1e1b4b), fontWeight: FontWeight.bold)),
+        title: const Text('Cari Layanan', style: TextStyle(color: Color(0xFF14241F), fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
         elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.filter_list_rounded, color: Color(0xff6366f1)),
+            icon: const Icon(Icons.filter_list_rounded, color: Color(0xFF1E6F5C)),
             onPressed: () => _showFilterSheet(context, ref),
           ),
         ],
@@ -44,7 +44,7 @@ class SearchScreen extends ConsumerWidget {
             child: TextField(
               decoration: InputDecoration(
                 hintText: 'Cari salon, bengkel, klinik...',
-                prefixIcon: const Icon(Icons.search_rounded, color: Color(0xff6366f1)),
+                prefixIcon: const Icon(Icons.search_rounded, color: Color(0xFF1E6F5C)),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide(color: Colors.grey.shade200),
@@ -55,10 +55,10 @@ class SearchScreen extends ConsumerWidget {
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: Color(0xff6366f1), width: 1.5),
+                  borderSide: const BorderSide(color: Color(0xFF1E6F5C), width: 1.5),
                 ),
                 filled: true,
-                fillColor: const Color(0xfff8f7ff),
+                fillColor: const Color(0xFFFBFAF7),
               ),
               onChanged: (val) {
                 ref.read(vendorFilterProvider.notifier).setSearch(val);
@@ -156,7 +156,7 @@ class SearchScreen extends ConsumerWidget {
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
-                                        color: Color(0xff1e1b4b),
+                                        color: Color(0xFF14241F),
                                       ),
                                     ),
                                     const SizedBox(height: 4),
@@ -169,13 +169,13 @@ class SearchScreen extends ConsumerWidget {
                                     const SizedBox(height: 8),
                                     Row(
                                       children: [
-                                        const Icon(Icons.star_rounded, size: 16, color: Color(0xfff97316)),
+                                        const Icon(Icons.star_rounded, size: 16, color: Color(0xFFF2A444)),
                                         const SizedBox(width: 4),
                                         Text('${vendor.ratingAvg} (${vendor.ratingCount})'),
                                         const Spacer(),
                                         Text(
                                           vendor.city,
-                                          style: const TextStyle(color: Color(0xff6366f1), fontWeight: FontWeight.bold),
+                                          style: const TextStyle(color: Color(0xFF1E6F5C), fontWeight: FontWeight.bold),
                                         ),
                                       ],
                                     ),
@@ -190,7 +190,7 @@ class SearchScreen extends ConsumerWidget {
                   },
                 );
               },
-              loading: () => const Center(child: CircularProgressIndicator(color: Color(0xff6366f1))),
+              loading: () => const Center(child: CircularProgressIndicator(color: Color(0xFF1E6F5C))),
               error: (err, stack) => Center(child: Text('Error: $err')),
             ),
           ),
@@ -231,7 +231,7 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
         children: [
           const Text(
             'Filter Pencarian',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
           ),
           const SizedBox(height: 20),
           const Text('Kota', style: TextStyle(fontWeight: FontWeight.bold)),
@@ -269,7 +269,7 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
                     _minRating = selected ? rating : null;
                   });
                 },
-                selectedColor: const Color(0xff6366f1),
+                selectedColor: const Color(0xFF1E6F5C),
                 labelStyle: TextStyle(color: isSelected ? Colors.white : Colors.black),
               );
             }).toList(),
@@ -295,7 +295,7 @@ class _FilterBottomSheetState extends ConsumerState<_FilterBottomSheet> {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff6366f1),
+                    backgroundColor: const Color(0xFF1E6F5C),
                     foregroundColor: Colors.white,
                   ),
                   child: const Text('Terapkan'),

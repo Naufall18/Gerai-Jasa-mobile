@@ -61,7 +61,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xff1e1b4b),
+                    color: Color(0xFF14241F),
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -78,13 +78,13 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                   keyboardType: TextInputType.name,
                   decoration: InputDecoration(
                     labelText: 'Nama Lengkap',
-                    prefixIcon: const Icon(Icons.person_rounded, color: Color(0xff6366f1)),
+                    prefixIcon: const Icon(Icons.person_rounded, color: Color(0xFF1E6F5C)),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: Color(0xff6366f1), width: 2),
+                      borderSide: const BorderSide(color: Color(0xFF1E6F5C), width: 2),
                     ),
                   ),
                   validator: (value) {
@@ -100,13 +100,13 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     labelText: 'Alamat Email',
-                    prefixIcon: const Icon(Icons.email_rounded, color: Color(0xff6366f1)),
+                    prefixIcon: const Icon(Icons.email_rounded, color: Color(0xFF1E6F5C)),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: Color(0xff6366f1), width: 2),
+                      borderSide: const BorderSide(color: Color(0xFF1E6F5C), width: 2),
                     ),
                   ),
                   validator: (value) {
@@ -133,7 +133,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
                   child: ElevatedButton(
                     onPressed: authState.isLoading ? null : _submit,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xff6366f1),
+                      backgroundColor: const Color(0xFF1E6F5C),
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),

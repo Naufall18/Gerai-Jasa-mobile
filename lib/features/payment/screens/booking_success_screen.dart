@@ -20,7 +20,7 @@ class BookingSuccessScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfff8f7ff),
+      backgroundColor: const Color(0xFFFBFAF7),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -32,7 +32,7 @@ class BookingSuccessScreen extends StatelessWidget {
                 width: 80,
                 height: 80,
                 decoration: const BoxDecoration(
-                  color: Color(0xff10b981),
+                  color: Color(0xFF2E8B57),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
@@ -47,7 +47,7 @@ class BookingSuccessScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xff1e1b4b),
+                  color: Color(0xFF14241F),
                 ),
               ),
               const SizedBox(height: 8),
@@ -85,7 +85,7 @@ class BookingSuccessScreen extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () => context.go('/bookings'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff6366f1),
+                    backgroundColor: const Color(0xFF1E6F5C),
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -104,8 +104,8 @@ class BookingSuccessScreen extends StatelessWidget {
                 child: OutlinedButton(
                   onPressed: () => context.go('/home'),
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: const Color(0xff6366f1),
-                    side: const BorderSide(color: Color(0xff6366f1)),
+                    foregroundColor: const Color(0xFF1E6F5C),
+                    side: const BorderSide(color: Color(0xFF1E6F5C)),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -134,7 +134,7 @@ class BookingSuccessScreen extends StatelessWidget {
         Text(
           value,
           style: TextStyle(
-            color: isCode ? const Color(0xff6366f1) : const Color(0xff1e1b4b),
+            color: isCode ? const Color(0xFF1E6F5C) : const Color(0xFF14241F),
             fontWeight: FontWeight.bold,
             fontSize: isCode ? 16 : 14,
             fontFamily: isCode ? 'monospace' : null,

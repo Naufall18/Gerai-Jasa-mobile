@@ -44,11 +44,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     }).toList() ?? [];
 
     return Scaffold(
-      backgroundColor: const Color(0xfff8f7ff),
+      backgroundColor: const Color(0xFFFBFAF7),
       appBar: AppBar(
         title: const Text(
           'Cari Layanan',
-          style: TextStyle(color: Color(0xff1e1b4b), fontWeight: FontWeight.bold),
+          style: TextStyle(color: Color(0xFF14241F), fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -63,7 +63,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               onChanged: _onSearchChanged,
               decoration: InputDecoration(
                 hintText: 'Cari salon, klinik, bengkel...',
-                prefixIcon: const Icon(Icons.search_rounded, color: Color(0xff6366f1)),
+                prefixIcon: const Icon(Icons.search_rounded, color: Color(0xFF1E6F5C)),
                 suffixIcon: _searchController.text.isNotEmpty
                     ? IconButton(
                         icon: const Icon(Icons.clear_rounded),
@@ -106,7 +106,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       label: Text(
                         isAll ? 'Semua' : category!.name,
                         style: TextStyle(
-                          color: isSelected ? Colors.white : const Color(0xff1e1b4b),
+                          color: isSelected ? Colors.white : const Color(0xFF14241F),
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -116,7 +116,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                           _selectedCategoryId = isAll ? '' : category!.id;
                         });
                       },
-                      selectedColor: const Color(0xff6366f1),
+                      selectedColor: const Color(0xFF1E6F5C),
                       backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
@@ -149,7 +149,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                         const Text(
                           'Vendor tidak ditemukan',
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+                              fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
                         ),
                         const SizedBox(height: 4),
                         const Text(
@@ -192,7 +192,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                                   height: 80,
                                   color: Colors.grey.shade100,
                                   child: const Icon(Icons.storefront_rounded,
-                                      size: 40, color: Color(0xff6366f1)),
+                                      size: 40, color: Color(0xFF1E6F5C)),
                                 ),
                               ),
                             ),
@@ -206,7 +206,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                                     style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
-                                        color: Color(0xff1e1b4b)),
+                                        color: Color(0xFF14241F)),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -260,7 +260,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 );
               },
               loading: () => const Center(
-                child: CircularProgressIndicator(color: Color(0xff6366f1)),
+                child: CircularProgressIndicator(color: Color(0xFF1E6F5C)),
               ),
               error: (err, stack) => Center(
                 child: Text('Error: $err', style: const TextStyle(color: Colors.red)),

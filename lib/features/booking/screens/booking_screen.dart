@@ -52,7 +52,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isSelected ? const Color(0xff6366f1) : Colors.grey.shade400,
+                  color: isSelected ? const Color(0xFF1E6F5C) : Colors.grey.shade400,
                   width: 2,
                 ),
               ),
@@ -60,7 +60,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                   ? const Center(
                       child: CircleAvatar(
                         radius: 6,
-                        backgroundColor: Color(0xff6366f1),
+                        backgroundColor: Color(0xFF1E6F5C),
                       ),
                     )
                   : null,
@@ -72,7 +72,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                 children: [
                   Text(title,
                       style: const TextStyle(
-                          fontWeight: FontWeight.bold, color: Color(0xff1e1b4b))),
+                          fontWeight: FontWeight.bold, color: Color(0xFF14241F))),
                   Text(subtitle,
                       style: const TextStyle(color: Colors.grey, fontSize: 12)),
                 ],
@@ -154,12 +154,12 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
     )));
 
     return Scaffold(
-      backgroundColor: const Color(0xfff8f7ff),
+      backgroundColor: const Color(0xFFFBFAF7),
       appBar: AppBar(
-        title: const Text('Buat Booking', style: TextStyle(color: Color(0xff1e1b4b), fontWeight: FontWeight.bold)),
+        title: const Text('Buat Booking', style: TextStyle(color: Color(0xFF14241F), fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Color(0xff1e1b4b)),
+        iconTheme: const IconThemeData(color: Color(0xFF14241F)),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -170,7 +170,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
               // 1. Select Date
               const Text(
                 'Pilih Tanggal',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
               ),
               const SizedBox(height: 10),
               InkWell(
@@ -200,9 +200,9 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                     children: [
                       Text(
                         DateFormat('EEEE, d MMMM yyyy').format(_selectedDate),
-                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+                        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
                       ),
-                      const Icon(Icons.calendar_today_rounded, color: Color(0xff6366f1)),
+                      const Icon(Icons.calendar_today_rounded, color: Color(0xFF1E6F5C)),
                     ],
                   ),
                 ),
@@ -212,7 +212,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
               // 2. Select Time Slots
               const Text(
                 'Pilih Jam Layanan',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
               ),
               const SizedBox(height: 10),
               slotsAsync.when(
@@ -241,8 +241,8 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                             }
                           });
                         },
-                        selectedColor: const Color(0xff6366f1),
-                        labelStyle: TextStyle(color: isSelected ? Colors.white : const Color(0xff1e1b4b)),
+                        selectedColor: const Color(0xFF1E6F5C),
+                        labelStyle: TextStyle(color: isSelected ? Colors.white : const Color(0xFF14241F)),
                         backgroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -252,7 +252,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                     }).toList(),
                   );
                 },
-                loading: () => const Center(child: CircularProgressIndicator(color: Color(0xff6366f1))),
+                loading: () => const Center(child: CircularProgressIndicator(color: Color(0xFF1E6F5C))),
                 error: (err, stack) => Text('Error: $err', style: const TextStyle(color: Colors.red)),
               ),
               const SizedBox(height: 24),
@@ -260,7 +260,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
               // 3. Notes / Special Request
               const Text(
                 'Catatan Tambahan',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
               ),
               const SizedBox(height: 10),
               TextField(
@@ -277,7 +277,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
               const SizedBox(height: 16),
               const Text(
                 'Permintaan Khusus',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
               ),
               const SizedBox(height: 10),
               TextField(
@@ -296,7 +296,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
               // 4. Payment Method
               const Text(
                 'Metode Pembayaran',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
               ),
               const SizedBox(height: 10),
               Container(
@@ -329,7 +329,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                 child: ElevatedButton(
                   onPressed: _isSubmitting ? null : _submitBooking,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff6366f1),
+                    backgroundColor: const Color(0xFF1E6F5C),
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),

@@ -1,66 +1,112 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'design_tokens.dart';
 
 class AppTheme {
-  static const Color primaryColor = Color(0xff6366f1);
-  static const Color accentColor = Color(0xfff97316);
-  static const Color backgroundColor = Color(0xfff8f7ff);
-  static const Color cardColor = Colors.white;
-  static const Color textPrimaryColor = Color(0xff1e1b4b);
-  static const Color textSecondaryColor = Color(0xff6b7280);
+  // ── Alias warna (kompatibel dengan kode lama; semua mengarah ke token) ──
+  static const Color primaryColor = GJColors.primary;
+  static const Color accentColor = GJColors.accent;
+  static const Color backgroundColor = GJColors.surface;
+  static const Color cardColor = GJColors.card;
+  static const Color textPrimaryColor = GJColors.ink;
+  static const Color textSecondaryColor = GJColors.textSoft;
 
   static ThemeData get lightTheme {
-    return ThemeData(
-      useMaterial3: true,
+    final base = ThemeData(useMaterial3: true);
+
+    // Body: Plus Jakarta Sans. Heading: Sora.
+    final bodyFont = GoogleFonts.plusJakartaSans;
+    final headingFont = GoogleFonts.sora;
+
+    final textTheme = base.textTheme.apply(
+      bodyColor: GJColors.ink,
+      displayColor: GJColors.ink,
+    );
+
+    return base.copyWith(
+      scaffoldBackgroundColor: GJColors.surface,
+      cardColor: GJColors.card,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: primaryColor,
-        primary: primaryColor,
-        secondary: accentColor,
-        surface: backgroundColor,
+        seedColor: GJColors.primary,
+        primary: GJColors.primary,
+        secondary: GJColors.accent,
+        surface: GJColors.surface,
+        error: GJColors.danger,
+        brightness: Brightness.light,
       ),
-      scaffoldBackgroundColor: backgroundColor,
-      cardColor: cardColor,
-      textTheme: GoogleFonts.plusJakartaSansTextTheme().copyWith(
-        titleLarge: GoogleFonts.plusJakartaSans(
-          fontSize: 22,
-          fontWeight: FontWeight.bold,
-          color: textPrimaryColor,
-        ),
-        titleMedium: GoogleFonts.plusJakartaSans(
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
-          color: textPrimaryColor,
-        ),
-        bodyLarge: GoogleFonts.plusJakartaSans(
-          fontSize: 16,
-          fontWeight: FontWeight.normal,
-          color: textPrimaryColor,
-        ),
-        bodyMedium: GoogleFonts.plusJakartaSans(
-          fontSize: 14,
-          fontWeight: FontWeight.normal,
-          color: textSecondaryColor,
-        ),
+      textTheme: textTheme.copyWith(
+        displaySmall: headingFont(fontSize: 28, fontWeight: FontWeight.w700, color: GJColors.ink),
+        headlineSmall: headingFont(fontSize: 22, fontWeight: FontWeight.w700, color: GJColors.ink),
+        titleLarge: headingFont(fontSize: 20, fontWeight: FontWeight.w700, color: GJColors.ink),
+        titleMedium: headingFont(fontSize: 16, fontWeight: FontWeight.w600, color: GJColors.ink),
+        bodyLarge: bodyFont(fontSize: 16, color: GJColors.ink),
+        bodyMedium: bodyFont(fontSize: 14, color: GJColors.textSoft),
+        bodySmall: bodyFont(fontSize: 12, color: GJColors.textSoft),
+        labelLarge: bodyFont(fontSize: 14, fontWeight: FontWeight.w600),
       ),
-      appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.transparent,
+      appBarTheme: AppBarTheme(
+        backgroundColor: GJColors.surface,
+        surfaceTintColor: Colors.transparent,
         elevation: 0,
-        centerTitle: true,
-        iconTheme: IconThemeData(color: textPrimaryColor),
+        centerTitle: false,
+        iconTheme: const IconThemeData(color: GJColors.ink),
+        titleTextStyle: headingFont(fontSize: 18, fontWeight: FontWeight.w700, color: GJColors.ink),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: primaryColor,
+          backgroundColor: GJColors.primary,
           foregroundColor: Colors.white,
-          textStyle: GoogleFonts.plusJakartaSans(
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
-          ),
-          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
+          elevation: 0,
+          textStyle: bodyFont(fontWeight: FontWeight.w600, fontSize: 15),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(GJRadius.lg)),
+          minimumSize: const Size(0, 52), // touch target nyaman
         ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: GJColors.primary,
+          side: const BorderSide(color: GJColors.border),
+          textStyle: bodyFont(fontWeight: FontWeight.w600, fontSize: 15),
+          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(GJRadius.lg)),
+          minimumSize: const Size(0, 48),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: Colors.white,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        hintStyle: bodyFont(color: GJColors.textSoft, fontSize: 14),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(GJRadius.md),
+          borderSide: const BorderSide(color: GJColors.border),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(GJRadius.md),
+          borderSide: const BorderSide(color: GJColors.primary, width: 1.6),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(GJRadius.md),
+          borderSide: const BorderSide(color: GJColors.danger),
+        ),
+      ),
+      chipTheme: base.chipTheme.copyWith(
+        backgroundColor: GJColors.surfaceAlt,
+        selectedColor: GJColors.primary,
+        labelStyle: bodyFont(fontSize: 13, color: GJColors.ink),
+        secondaryLabelStyle: bodyFont(fontSize: 13, color: Colors.white),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(GJRadius.pill)),
+        side: BorderSide.none,
+      ),
+      dividerTheme: const DividerThemeData(color: GJColors.border, thickness: 1),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: Colors.white,
+        selectedItemColor: GJColors.primary,
+        unselectedItemColor: GJColors.textSoft,
+        type: BottomNavigationBarType.fixed,
+        elevation: 0,
+        showUnselectedLabels: true,
       ),
     );
   }

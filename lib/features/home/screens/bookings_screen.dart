@@ -14,15 +14,15 @@ class BookingsScreen extends ConsumerWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: const Color(0xfff8f7ff),
+        backgroundColor: const Color(0xFFFBFAF7),
         appBar: AppBar(
-          title: const Text('Booking Saya', style: TextStyle(color: Color(0xff1e1b4b), fontWeight: FontWeight.bold)),
+          title: const Text('Booking Saya', style: TextStyle(color: Color(0xFF14241F), fontWeight: FontWeight.bold)),
           backgroundColor: Colors.white,
           elevation: 0,
           bottom: const TabBar(
-            labelColor: Color(0xff6366f1),
+            labelColor: Color(0xFF1E6F5C),
             unselectedLabelColor: Colors.grey,
-            indicatorColor: Color(0xff6366f1),
+            indicatorColor: Color(0xFF1E6F5C),
             tabs: [
               Tab(text: 'Mendatang'),
               Tab(text: 'Riwayat'),
@@ -32,7 +32,7 @@ class BookingsScreen extends ConsumerWidget {
         body: RefreshIndicator(
           onRefresh: () => ref.read(bookingsProvider.notifier).fetchBookings(),
           child: state.isLoading && state.bookings.isEmpty
-              ? const Center(child: CircularProgressIndicator(color: Color(0xff6366f1)))
+              ? const Center(child: CircularProgressIndicator(color: Color(0xFF1E6F5C)))
               : TabBarView(
                   children: [
                     _BookingsList(
@@ -155,7 +155,7 @@ class _BookingsList extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xff1e1b4b),
+                            color: Color(0xFF14241F),
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -169,7 +169,7 @@ class _BookingsList extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xff1e1b4b),
+                            color: Color(0xFF14241F),
                           ),
                         ),
                       ],
@@ -199,7 +199,7 @@ class _BookingsList extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xff6366f1),
+                          color: Color(0xFF1E6F5C),
                         ),
                       ),
                     ],

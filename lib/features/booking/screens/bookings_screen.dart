@@ -15,18 +15,18 @@ class BookingsScreen extends ConsumerWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: const Color(0xfff8f7ff),
+        backgroundColor: const Color(0xFFFBFAF7),
         appBar: AppBar(
           title: const Text(
             'Booking Saya',
-            style: TextStyle(color: Color(0xff1e1b4b), fontWeight: FontWeight.bold),
+            style: TextStyle(color: Color(0xFF14241F), fontWeight: FontWeight.bold),
           ),
           backgroundColor: Colors.white,
           elevation: 0,
           bottom: const TabBar(
-            labelColor: Color(0xff6366f1),
+            labelColor: Color(0xFF1E6F5C),
             unselectedLabelColor: Colors.grey,
-            indicatorColor: Color(0xff6366f1),
+            indicatorColor: Color(0xFF1E6F5C),
             indicatorWeight: 3,
             tabs: [
               Tab(text: 'Mendatang'),
@@ -35,7 +35,7 @@ class BookingsScreen extends ConsumerWidget {
           ),
         ),
         body: bookingsState.isLoading && bookingsState.bookings.isEmpty
-            ? const Center(child: CircularProgressIndicator(color: Color(0xff6366f1)))
+            ? const Center(child: CircularProgressIndicator(color: Color(0xFF1E6F5C)))
             : bookingsState.error != null
                 ? Center(
                     child: Column(
@@ -48,7 +48,7 @@ class BookingsScreen extends ConsumerWidget {
                         ElevatedButton(
                           onPressed: () => ref.read(bookingsProvider.notifier).fetchBookings(),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xff6366f1),
+                            backgroundColor: const Color(0xFF1E6F5C),
                           ),
                           child: const Text('Coba Lagi', style: TextStyle(color: Colors.white)),
                         ),
@@ -105,7 +105,7 @@ class _BookingList extends StatelessWidget {
                 const SizedBox(height: 16),
                 const Text(
                   'Tidak ada booking',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
                 ),
                 const SizedBox(height: 4),
                 const Text(
@@ -171,7 +171,7 @@ class _BookingList extends StatelessWidget {
                             color: const Color(0xfff4f3ff),
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: const Icon(Icons.storefront_rounded, color: Color(0xff6366f1)),
+                          child: const Icon(Icons.storefront_rounded, color: Color(0xFF1E6F5C)),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -183,7 +183,7 @@ class _BookingList extends StatelessWidget {
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xff1e1b4b),
+                                  color: Color(0xFF14241F),
                                 ),
                               ),
                               const SizedBox(height: 4),
@@ -213,7 +213,7 @@ class _BookingList extends StatelessWidget {
                               style: const TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
-                                color: Color(0xff1e1b4b),
+                                color: Color(0xFF14241F),
                               ),
                             ),
                           ],
@@ -231,7 +231,7 @@ class _BookingList extends StatelessWidget {
                               style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
-                                color: Color(0xfff97316),
+                                color: Color(0xFFF2A444),
                               ),
                             ),
                           ],
@@ -260,7 +260,7 @@ class _BookingList extends StatelessWidget {
         color = Colors.blue;
         text = 'Dikonfirmasi';
       case 'in_progress':
-        color = const Color(0xff6366f1);
+        color = const Color(0xFF1E6F5C);
         text = 'Sedang Berjalan';
       case 'completed':
         color = Colors.green;

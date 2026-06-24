@@ -48,7 +48,7 @@ class _MainWrapperScreenState extends State<MainWrapperScreen> {
         },
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
-        selectedItemColor: const Color(0xff6366f1),
+        selectedItemColor: const Color(0xFF1E6F5C),
         unselectedItemColor: Colors.grey,
         selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
         unselectedLabelStyle: const TextStyle(fontSize: 12),

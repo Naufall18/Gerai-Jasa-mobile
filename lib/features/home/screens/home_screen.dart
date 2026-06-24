@@ -17,7 +17,7 @@ class HomeScreen extends ConsumerWidget {
     final userName = authState.user?.name.split(' ').first ?? 'Pengguna';
 
     return Scaffold(
-      backgroundColor: const Color(0xfff8f7ff),
+      backgroundColor: const Color(0xFFFBFAF7),
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {
@@ -43,13 +43,13 @@ class HomeScreen extends ConsumerWidget {
                             style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xff1e1b4b),
+                              color: Color(0xFF14241F),
                             ),
                           ),
                           const SizedBox(height: 4),
                           const Row(
                             children: [
-                              Icon(Icons.location_on_rounded, size: 16, color: Color(0xfff97316)),
+                              Icon(Icons.location_on_rounded, size: 16, color: Color(0xFFF2A444)),
                               SizedBox(width: 4),
                               Text(
                                 'Indonesia',
@@ -60,7 +60,7 @@ class HomeScreen extends ConsumerWidget {
                         ],
                       ),
                       IconButton(
-                        icon: const Icon(Icons.notifications_outlined, color: Color(0xff1e1b4b)),
+                        icon: const Icon(Icons.notifications_outlined, color: Color(0xFF14241F)),
                         onPressed: () {},
                       ),
                     ],
@@ -109,7 +109,7 @@ class HomeScreen extends ConsumerWidget {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff1e1b4b),
+                      color: Color(0xFF14241F),
                     ),
                   ),
                 ),
@@ -134,10 +134,10 @@ class HomeScreen extends ConsumerWidget {
                                 selected ? cat.id : null,
                               );
                             },
-                            selectedColor: const Color(0xff6366f1),
+                            selectedColor: const Color(0xFF1E6F5C),
                             backgroundColor: Colors.white,
                             labelStyle: TextStyle(
-                              color: isSelected ? Colors.white : const Color(0xff1e1b4b),
+                              color: isSelected ? Colors.white : const Color(0xFF14241F),
                               fontWeight: FontWeight.bold,
                             ),
                             shape: RoundedRectangleBorder(
@@ -153,7 +153,7 @@ class HomeScreen extends ConsumerWidget {
                   ),
                   loading: () => const SizedBox(
                     height: 48,
-                    child: Center(child: CircularProgressIndicator(color: Color(0xff6366f1), strokeWidth: 2)),
+                    child: Center(child: CircularProgressIndicator(color: Color(0xFF1E6F5C), strokeWidth: 2)),
                   ),
                   error: (_, __) => const SizedBox(height: 48),
                 ),
@@ -164,7 +164,7 @@ class HomeScreen extends ConsumerWidget {
                   padding: EdgeInsets.symmetric(horizontal: 24.0),
                   child: Text(
                     'Vendor Unggulan',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -230,7 +230,7 @@ class HomeScreen extends ConsumerWidget {
                                           style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
-                                            color: Color(0xff1e1b4b),
+                                            color: Color(0xFF14241F),
                                           ),
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
@@ -241,7 +241,7 @@ class HomeScreen extends ConsumerWidget {
                                           children: [
                                             Row(
                                               children: [
-                                                const Icon(Icons.star_rounded, size: 16, color: Color(0xfff97316)),
+                                                const Icon(Icons.star_rounded, size: 16, color: Color(0xFFF2A444)),
                                                 const SizedBox(width: 4),
                                                 Text(
                                                   '${vendor.ratingAvg.toStringAsFixed(1)} (${vendor.ratingCount})',
@@ -252,7 +252,7 @@ class HomeScreen extends ConsumerWidget {
                                             Text(
                                               vendor.city,
                                               style: const TextStyle(
-                                                  color: Color(0xff6366f1), fontSize: 13, fontWeight: FontWeight.bold),
+                                                  color: Color(0xFF1E6F5C), fontSize: 13, fontWeight: FontWeight.bold),
                                             ),
                                           ],
                                         ),
@@ -269,7 +269,7 @@ class HomeScreen extends ConsumerWidget {
                   },
                   loading: () => const SizedBox(
                     height: 220,
-                    child: Center(child: CircularProgressIndicator(color: Color(0xff6366f1))),
+                    child: Center(child: CircularProgressIndicator(color: Color(0xFF1E6F5C))),
                   ),
                   error: (err, stack) => Center(
                     child: Padding(
@@ -285,7 +285,7 @@ class HomeScreen extends ConsumerWidget {
                   padding: EdgeInsets.symmetric(horizontal: 24.0),
                   child: Text(
                     'Semua Vendor',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -339,7 +339,7 @@ class HomeScreen extends ConsumerWidget {
                                         color: Colors.grey.shade200,
                                         width: 80,
                                         height: 80,
-                                        child: const Icon(Icons.storefront_rounded, color: Color(0xff6366f1), size: 36),
+                                        child: const Icon(Icons.storefront_rounded, color: Color(0xFF1E6F5C), size: 36),
                                       ),
                                     ),
                                   ),
@@ -351,7 +351,7 @@ class HomeScreen extends ConsumerWidget {
                                         Text(
                                           vendor.name,
                                           style: const TextStyle(
-                                              fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+                                              fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
                                         ),
                                         const SizedBox(height: 4),
                                         Text(
@@ -363,7 +363,7 @@ class HomeScreen extends ConsumerWidget {
                                         const SizedBox(height: 8),
                                         Row(
                                           children: [
-                                            const Icon(Icons.star_rounded, size: 16, color: Color(0xfff97316)),
+                                            const Icon(Icons.star_rounded, size: 16, color: Color(0xFFF2A444)),
                                             const SizedBox(width: 4),
                                             Text(
                                               '${vendor.ratingAvg.toStringAsFixed(1)} (${vendor.ratingCount})',
@@ -373,7 +373,7 @@ class HomeScreen extends ConsumerWidget {
                                             Text(
                                               vendor.city,
                                               style: const TextStyle(
-                                                  color: Color(0xff6366f1), fontSize: 13, fontWeight: FontWeight.bold),
+                                                  color: Color(0xFF1E6F5C), fontSize: 13, fontWeight: FontWeight.bold),
                                             ),
                                           ],
                                         ),
@@ -390,7 +390,7 @@ class HomeScreen extends ConsumerWidget {
                   },
                   loading: () => const Center(child: Padding(
                     padding: EdgeInsets.all(32),
-                    child: CircularProgressIndicator(color: Color(0xff6366f1)),
+                    child: CircularProgressIndicator(color: Color(0xFF1E6F5C)),
                   )),
                   error: (err, stack) => Center(child: Text('Error: $err')),
                 ),

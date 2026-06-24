@@ -11,9 +11,9 @@ class ProfileScreen extends ConsumerWidget {
     final user = authState.user;
 
     return Scaffold(
-      backgroundColor: const Color(0xfff8f7ff),
+      backgroundColor: const Color(0xFFFBFAF7),
       appBar: AppBar(
-        title: const Text('Profil Saya', style: TextStyle(color: Color(0xff1e1b4b), fontWeight: FontWeight.bold)),
+        title: const Text('Profil Saya', style: TextStyle(color: Color(0xFF14241F), fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
         elevation: 0,
       ),
@@ -35,16 +35,16 @@ class ProfileScreen extends ConsumerWidget {
                   children: [
                     CircleAvatar(
                       radius: 40,
-                      backgroundColor: const Color(0xff6366f1).withValues(alpha: 0.1),
+                      backgroundColor: const Color(0xFF1E6F5C).withValues(alpha: 0.1),
                       child: Text(
                         (user?.name.isNotEmpty == true) ? user!.name[0].toUpperCase() : 'U',
-                        style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Color(0xff6366f1)),
+                        style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Color(0xFF1E6F5C)),
                       ),
                     ),
                     const SizedBox(height: 16),
                     Text(
                       user?.name ?? 'Pengguna',
-                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xff1e1b4b)),
+                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
                     ),
                     const SizedBox(height: 4),
                     Text(
@@ -144,8 +144,8 @@ class ProfileScreen extends ConsumerWidget {
     required VoidCallback onTap,
   }) {
     return ListTile(
-      leading: Icon(icon, color: const Color(0xff6366f1)),
-      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w500, color: Color(0xff1e1b4b))),
+      leading: Icon(icon, color: const Color(0xFF1E6F5C)),
+      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w500, color: Color(0xFF14241F))),
       trailing: const Icon(Icons.chevron_right_rounded, color: Colors.grey),
       onTap: onTap,
     );

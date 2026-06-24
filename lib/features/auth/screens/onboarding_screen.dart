@@ -70,12 +70,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           width: 160,
                           height: 160,
                           decoration: BoxDecoration(
-                            color: const Color(0xff6366f1).withOpacity(0.1),
+                            color: const Color(0xFF1E6F5C).withOpacity(0.1),
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
                             _getIcon(slide['icon']!),
-                            color: const Color(0xff6366f1),
+                            color: const Color(0xFF1E6F5C),
                             size: 80,
                           ),
                         ),
@@ -85,7 +85,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xff1e1b4b),
+                            color: Color(0xFF14241F),
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -119,7 +119,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         width: _currentPage == index ? 24 : 8,
                         height: 8,
                         decoration: BoxDecoration(
-                          color: _currentPage == index ? const Color(0xff6366f1) : Colors.grey.shade300,
+                          color: _currentPage == index ? const Color(0xFF1E6F5C) : Colors.grey.shade300,
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -137,7 +137,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xff6366f1),
+                      backgroundColor: const Color(0xFF1E6F5C),
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
