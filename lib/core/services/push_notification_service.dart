@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:go_router/go_router.dart';
+import '../../firebase_options.dart';
 import '../api/api_client.dart';
 
 /// Global key so push handlers can surface a SnackBar from anywhere.
@@ -36,7 +37,9 @@ class PushNotificationService {
   /// Initialize Firebase + messaging. Safe to call before login.
   Future<void> init() async {
     try {
-      await Firebase.initializeApp();
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
 
       final messaging = FirebaseMessaging.instance;
 
