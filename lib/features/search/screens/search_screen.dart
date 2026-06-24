@@ -153,17 +153,21 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   itemCount: filteredVendors.length,
                   itemBuilder: (context, index) {
                     final vendor = filteredVendors[index];
-                    return GestureDetector(
-                      onTap: () => context.push('/vendor/${vendor.slug}'),
-                      child: Container(
-                        margin: const EdgeInsets.only(bottom: 16),
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: Colors.grey.shade100),
-                        ),
-                        child: Row(
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 16),
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Colors.grey.shade100),
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () => context.push('/vendor/${vendor.slug}'),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Row(
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(12),
@@ -240,6 +244,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                               ),
                             ),
                           ],
+                        ),
+                          ),
                         ),
                       ),
                     );
