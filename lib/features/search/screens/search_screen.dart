@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import '../../../shared/providers/vendor_provider.dart';
 import '../../../core/widgets/gj_widgets.dart';
+import '../../../core/widgets/gj_vendor_card.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key});
@@ -153,102 +153,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   itemCount: filteredVendors.length,
                   itemBuilder: (context, index) {
                     final vendor = filteredVendors[index];
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 16),
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: Colors.grey.shade100),
-                      ),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () => context.push('/vendor/${vendor.slug}'),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: Row(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.network(
-                                vendor.photos.isNotEmpty
-                                    ? vendor.photos.first.url
-                                    : 'https://picsum.photos/seed/${vendor.id}/80/80',
-                                width: 80,
-                                height: 80,
-                                fit: BoxFit.cover,
-                                errorBuilder: (_, __, ___) => Container(
-                                  width: 80,
-                                  height: 80,
-                                  color: Colors.grey.shade100,
-                                  child: const Icon(Icons.storefront_rounded,
-                                      size: 40, color: Color(0xFF1E6F5C)),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    vendor.name,
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color(0xFF14241F)),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    vendor.address,
-                                    style: const TextStyle(color: Colors.grey, fontSize: 12),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.star_rounded,
-                                          size: 16, color: Colors.amber),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                        vendor.ratingAvg.toStringAsFixed(1),
-                                        style: const TextStyle(
-                                            fontSize: 12, fontWeight: FontWeight.bold),
-                                      ),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                        '(${vendor.ratingCount})',
-                                        style: const TextStyle(
-                                            color: Colors.grey, fontSize: 12),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      const Icon(Icons.location_on_rounded,
-                                          size: 14, color: Colors.grey),
-                                      const SizedBox(width: 4),
-                                      Expanded(
-                                        child: Text(
-                                          vendor.city,
-                                          style: const TextStyle(
-                                              color: Colors.grey, fontSize: 12),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                          ),
-                        ),
-                      ),
-                    );
+                    return GJVendorCard(vendor: vendor);
                   },
                 );
               },

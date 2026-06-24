@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../features/auth/providers/auth_provider.dart';
 import '../../../shared/providers/vendor_provider.dart';
 import '../../../core/widgets/gj_widgets.dart';
+import '../../../core/widgets/gj_vendor_card.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -309,85 +310,7 @@ class HomeScreen extends ConsumerWidget {
                       itemCount: vendors.length,
                       itemBuilder: (context, index) {
                         final vendor = vendors[index];
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 16),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.02),
-                                blurRadius: 10,
-                                offset: const Offset(0, 5),
-                              ),
-                            ],
-                          ),
-                          child: InkWell(
-                            onTap: () => context.push('/vendor/${vendor.slug}'),
-                            borderRadius: BorderRadius.circular(16),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Row(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.network(
-                                      vendor.photos.isNotEmpty
-                                          ? vendor.photos.first.url
-                                          : 'https://picsum.photos/seed/${vendor.id}/100/100',
-                                      width: 80,
-                                      height: 80,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (context, error, stackTrace) => Container(
-                                        color: Colors.grey.shade200,
-                                        width: 80,
-                                        height: 80,
-                                        child: const Icon(Icons.storefront_rounded, color: Color(0xFF1E6F5C), size: 36),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 16),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          vendor.name,
-                                          style: const TextStyle(
-                                              fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF14241F)),
-                                        ),
-                                        const SizedBox(height: 4),
-                                        Text(
-                                          vendor.address,
-                                          style: const TextStyle(color: Colors.grey, fontSize: 13),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Row(
-                                          children: [
-                                            const Icon(Icons.star_rounded, size: 16, color: Color(0xFFF2A444)),
-                                            const SizedBox(width: 4),
-                                            Text(
-                                              '${vendor.ratingAvg.toStringAsFixed(1)} (${vendor.ratingCount})',
-                                              style: const TextStyle(color: Colors.grey, fontSize: 13),
-                                            ),
-                                            const Spacer(),
-                                            Text(
-                                              vendor.city,
-                                              style: const TextStyle(
-                                                  color: Color(0xFF1E6F5C), fontSize: 13, fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
+                        return GJVendorCard(vendor: vendor);
                       },
                     );
                   },
