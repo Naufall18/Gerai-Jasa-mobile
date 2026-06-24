@@ -28,17 +28,29 @@ class BookingSuccessScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),
-              Container(
-                width: 80,
-                height: 80,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF2E8B57),
-                  shape: BoxShape.circle,
+              TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0, end: 1),
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeOutBack,
+                builder: (context, t, child) => Transform.scale(
+                  scale: t.clamp(0.0, 1.0),
+                  child: Opacity(opacity: t.clamp(0.0, 1.0), child: child),
                 ),
-                child: const Icon(
-                  Icons.check_rounded,
-                  size: 48,
-                  color: Colors.white,
+                child: Container(
+                  width: 84,
+                  height: 84,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF2E8B57),
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF2E8B57).withValues(alpha: 0.3),
+                        blurRadius: 24,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
+                  ),
+                  child: const Icon(Icons.check_rounded, size: 48, color: Colors.white),
                 ),
               ),
               const SizedBox(height: 24),
