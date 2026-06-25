@@ -22,13 +22,42 @@ import '../widgets/gj_bottom_nav.dart';
 
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
+/// Bridges Riverpod auth state into a [Listenable] so GoRouter can re-run its
+/// redirect logic WITHOUT being rebuilt.
+///
+/// Previously the router did `ref.watch(authProvider)`, so every auth state
+/// change (including the brief `isLoading` toggle while requesting an OTP) built
+/// a brand-new GoRouter. A fresh router resets navigation to `initialLocation`
+/// ('/'), which bounced the user back to the splash screen mid-flow. Building
+/// the router once and refreshing via this listenable fixes that.
+class _AuthRouterNotifier extends ChangeNotifier {
+  _AuthRouterNotifier(Ref ref) {
+    ref.listen<AuthState>(authProvider, (previous, next) {
+      if (previous?.isAuthenticated != next.isAuthenticated ||
+          previous?.isLoading != next.isLoading) {
+        notifyListeners();
+      }
+    });
+  }
+}
+
+final _authRouterNotifierProvider = Provider<_AuthRouterNotifier>((ref) {
+  final notifier = _AuthRouterNotifier(ref);
+  ref.onDispose(notifier.dispose);
+  return notifier;
+});
+
 final routerProvider = Provider<GoRouter>((ref) {
-  final authState = ref.watch(authProvider);
+  // Watch the (stable, created-once) notifier — NOT authProvider directly —
+  // so the GoRouter instance is built a single time for the app's lifetime.
+  final refreshListenable = ref.watch(_authRouterNotifierProvider);
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
     initialLocation: '/',
+    refreshListenable: refreshListenable,
     redirect: (context, state) {
+      final authState = ref.read(authProvider);
       final isAuth = authState.isAuthenticated;
       final isLoggingIn = state.matchedLocation == '/phone-input' ||
           state.matchedLocation == '/otp-verify' ||
@@ -36,6 +65,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           state.matchedLocation == '/onboarding' ||
           state.matchedLocation == '/';
 
+      // While auth status is resolving, don't redirect (splash stays).
       if (authState.isLoading) return null;
 
       if (!isAuth) {
