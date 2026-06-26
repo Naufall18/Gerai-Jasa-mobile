@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/api/api_client.dart';
 import '../../../core/services/push_notification_service.dart';
@@ -95,7 +96,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
       if (res.data['success'] == true) {
         final token = res.data['data']['token'];
-        final isRegistered = res.data['data']['is_registered'] ?? true;
+        final isRegistered = res.data['data']['is_registered'] ?? false;
         await _apiClient.saveToken(token);
 
         if (isRegistered) {
@@ -108,8 +109,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
           await PushNotificationService.instance.registerToken(_apiClient);
           return true; // go to home
         } else {
+          // Token saved but profile not complete → go to biodata screen.
+          // Keep isAuthenticated false so the user isn't dropped onto home yet.
           state = state.copyWith(isLoading: false);
-          return false; // go to profile setup (register)
+          return false; // go to profile setup (complete biodata)
         }
       } else {
         state = state.copyWith(isLoading: false, error: 'OTP tidak valid.');
@@ -121,15 +124,15 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  Future<bool> register({required String name, required String email}) async {
-    if (state.phoneForOtp == null) return false;
+  /// Completes the biodata for a freshly OTP-verified user. The token is already
+  /// saved (from verifyOtp), so this hits the authenticated complete-profile
+  /// endpoint instead of re-registering the phone.
+  Future<bool> completeProfile({required String name, required String email}) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
-      final res = await _apiClient.dio.post('/auth/register', data: {
+      final res = await _apiClient.dio.patch('/auth/complete-profile', data: {
         'name': name,
         'email': email,
-        'phone': state.phoneForOtp,
-        'role': 'customer',
       });
 
       if (res.data['success'] == true) {
@@ -145,8 +148,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
         state = state.copyWith(isLoading: false, error: res.data['message']);
         return false;
       }
+    } on DioException catch (e) {
+      final msg = e.response?.data?['errors']?['email']?[0] ??
+          e.response?.data?['message'] ??
+          'Gagal menyimpan profil. Silakan coba lagi.';
+      state = state.copyWith(isLoading: false, error: msg.toString());
+      return false;
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: 'Gagal mendaftar. Silakan coba lagi.');
+      state = state.copyWith(isLoading: false, error: 'Gagal menyimpan profil. Silakan coba lagi.');
       return false;
     }
   }

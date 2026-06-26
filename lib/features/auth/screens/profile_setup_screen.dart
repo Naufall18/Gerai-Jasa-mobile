@@ -21,7 +21,7 @@ class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> {
     final name = _nameController.text.trim();
     final email = _emailController.text.trim();
     
-    final success = await ref.read(authProvider.notifier).register(
+    final success = await ref.read(authProvider.notifier).completeProfile(
       name: name,
       email: email,
     );
