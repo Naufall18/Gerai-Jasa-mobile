@@ -17,6 +17,7 @@ import '../../features/booking/screens/bookings_screen.dart';
 import '../../features/booking/screens/booking_detail_screen.dart';
 import '../../features/booking/screens/review_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
+import '../../features/profile/screens/edit_profile_screen.dart';
 import '../services/push_notification_service.dart';
 import '../widgets/gj_bottom_nav.dart';
 
@@ -160,6 +161,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => ReviewScreen(
           bookingId: state.pathParameters['id']!,
         ),
+      ),
+      GoRoute(
+        path: '/edit-profile',
+        builder: (context, state) => const EditProfileScreen(),
       ),
     ],
   );

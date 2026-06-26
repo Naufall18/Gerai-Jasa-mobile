@@ -160,6 +160,34 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
+  /// Updates the signed-in user's profile (name / email).
+  Future<bool> updateProfile({required String name, required String email}) async {
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      final res = await _apiClient.dio.patch('/auth/profile', data: {
+        'name': name,
+        'email': email,
+      });
+
+      if (res.data['success'] == true) {
+        final user = UserModel.fromJson(res.data['data']['user']);
+        state = state.copyWith(user: user, isLoading: false);
+        return true;
+      }
+      state = state.copyWith(isLoading: false, error: res.data['message']);
+      return false;
+    } on DioException catch (e) {
+      final msg = e.response?.data?['errors']?['email']?[0] ??
+          e.response?.data?['message'] ??
+          'Gagal memperbarui profil.';
+      state = state.copyWith(isLoading: false, error: msg.toString());
+      return false;
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: 'Gagal memperbarui profil.');
+      return false;
+    }
+  }
+
   Future<void> logout() async {
     state = state.copyWith(isLoading: true);
     try {
