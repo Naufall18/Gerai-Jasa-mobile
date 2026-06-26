@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../features/auth/providers/auth_provider.dart';
+import '../../../features/notifications/providers/notification_provider.dart';
 import '../../../shared/providers/vendor_provider.dart';
 import '../../../core/widgets/gj_widgets.dart';
 import '../../../core/widgets/gj_vendor_card.dart';
@@ -62,8 +63,31 @@ class HomeScreen extends ConsumerWidget {
                         ],
                       ),
                       IconButton(
-                        icon: const Icon(Icons.notifications_outlined, color: Color(0xFF14241F)),
-                        onPressed: () {},
+                        icon: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            const Icon(Icons.notifications_outlined, color: Color(0xFF14241F)),
+                            if (ref.watch(notificationsProvider).unreadCount > 0)
+                              Positioned(
+                                right: -2,
+                                top: -2,
+                                child: Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xFFC94A4A),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
+                                  child: Text(
+                                    '${ref.watch(notificationsProvider).unreadCount}',
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                        onPressed: () => context.push('/notifications'),
                       ),
                     ],
                   ),
