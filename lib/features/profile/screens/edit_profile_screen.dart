@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../core/theme/design_tokens.dart';
 import '../../../core/widgets/gj_toast.dart';
 import '../../auth/providers/auth_provider.dart';
@@ -30,6 +31,18 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     _nameController.dispose();
     _emailController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickAvatar() async {
+    final picked = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 1000,
+      imageQuality: 85,
+    );
+    if (picked == null) return;
+    final ok = await ref.read(authProvider.notifier).uploadAvatar(picked.path);
+    if (!mounted) return;
+    ok ? GJToast.success('Foto profil diperbarui') : GJToast.error('Gagal mengunggah foto');
   }
 
   Future<void> _save() async {
@@ -84,32 +97,43 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
           key: _formKey,
           child: Column(
             children: [
-              // Avatar with initial (image upload coming later).
-              Stack(
-                children: [
-                  CircleAvatar(
-                    radius: 48,
-                    backgroundColor: GJColors.primarySoft,
-                    child: Text(initial,
-                        style: const TextStyle(
-                            fontSize: 38,
-                            fontWeight: FontWeight.bold,
-                            color: GJColors.primary)),
-                  ),
-                  Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: const BoxDecoration(
-                        color: GJColors.primary,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.camera_alt_rounded,
-                          color: Colors.white, size: 16),
+              // Tap avatar to pick & upload a new photo.
+              GestureDetector(
+                onTap: authState.isLoading ? null : _pickAvatar,
+                child: Stack(
+                  children: [
+                    CircleAvatar(
+                      radius: 48,
+                      backgroundColor: GJColors.primarySoft,
+                      backgroundImage: (user?.avatarUrl != null &&
+                              user!.avatarUrl!.isNotEmpty)
+                          ? NetworkImage(user.avatarUrl!)
+                          : null,
+                      child: (user?.avatarUrl == null ||
+                              user!.avatarUrl!.isEmpty)
+                          ? Text(initial,
+                              style: const TextStyle(
+                                  fontSize: 38,
+                                  fontWeight: FontWeight.bold,
+                                  color: GJColors.primary))
+                          : null,
                     ),
-                  ),
-                ],
+                    Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: GJColors.primary,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: GJColors.surface, width: 2),
+                        ),
+                        child: const Icon(Icons.camera_alt_rounded,
+                            color: Colors.white, size: 16),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: GJSpacing.xxl),
               TextFormField(

@@ -188,6 +188,27 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
+  /// Uploads a new avatar image (multipart) and refreshes the user.
+  Future<bool> uploadAvatar(String filePath) async {
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      final form = FormData.fromMap({
+        'avatar': await MultipartFile.fromFile(filePath, filename: 'avatar.jpg'),
+      });
+      final res = await _apiClient.dio.post('/auth/avatar', data: form);
+      if (res.data['success'] == true) {
+        final user = UserModel.fromJson(res.data['data']['user']);
+        state = state.copyWith(user: user, isLoading: false);
+        return true;
+      }
+      state = state.copyWith(isLoading: false, error: res.data['message']);
+      return false;
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: 'Gagal mengunggah foto.');
+      return false;
+    }
+  }
+
   Future<void> logout() async {
     state = state.copyWith(isLoading: true);
     try {
