@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand "Pine Dark" — matches the top of the Flutter splash gradient so the
+         native launch screen flows seamlessly into the in-app splash. -->
+    <color name="gj_splash">#14463B</color>
+</resources>
