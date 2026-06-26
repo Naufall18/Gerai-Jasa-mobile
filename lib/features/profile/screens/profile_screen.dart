@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../auth/providers/auth_provider.dart';
 
 class ProfileScreen extends ConsumerWidget {
@@ -73,11 +74,7 @@ class ProfileScreen extends ConsumerWidget {
                     _buildMenuItem(
                       icon: Icons.person_outline_rounded,
                       title: 'Edit Profil',
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Fitur edit profil segera hadir.')),
-                        );
-                      },
+                      onTap: () => context.push('/edit-profile'),
                     ),
                     const Divider(height: 1),
                     _buildMenuItem(
