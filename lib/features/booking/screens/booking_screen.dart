@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../../shared/providers/booking_provider.dart';
 import '../../../shared/providers/vendor_provider.dart';
+import '../../../core/widgets/gj_toast.dart';
 
 class BookingScreen extends ConsumerStatefulWidget {
   final String vendorId;
@@ -86,9 +87,7 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
 
   Future<void> _submitBooking() async {
     if (_selectedSlotId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Silakan pilih slot waktu terlebih dahulu.')),
-      );
+      GJToast.warning('Silakan pilih slot waktu terlebih dahulu.');
       return;
     }
 
@@ -124,16 +123,12 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
         }
       } else {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Gagal membuat booking. Silakan coba lagi.')),
-          );
+          GJToast.error('Gagal membuat booking. Silakan coba lagi.');
         }
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
+        GJToast.error('Terjadi kesalahan. Silakan coba lagi.');
       }
     } finally {
       if (mounted) {

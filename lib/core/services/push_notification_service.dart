@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:go_router/go_router.dart';
 import '../../firebase_options.dart';
 import '../api/api_client.dart';
+import '../widgets/gj_toast.dart';
 
 /// Global key so push handlers can surface a SnackBar from anywhere.
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
@@ -51,13 +52,15 @@ class PushNotificationService {
 
       FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundHandler);
 
-      // Foreground messages → SnackBar
+      // Foreground messages → animated top toast
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         final notification = message.notification;
         if (notification != null) {
-          _showSnackBar(
-            notification.title ?? 'Notifikasi',
+          GJToast.show(
             notification.body ?? '',
+            title: notification.title ?? 'Notifikasi',
+            type: GJToastType.info,
+            duration: const Duration(seconds: 4),
           );
         }
       });
@@ -115,23 +118,5 @@ class PushNotificationService {
     if (bookingId != null && bookingId.toString().isNotEmpty) {
       context.push('/booking-detail/$bookingId');
     }
-  }
-
-  void _showSnackBar(String title, String body) {
-    final messenger = scaffoldMessengerKey.currentState;
-    if (messenger == null) return;
-    messenger.showSnackBar(
-      SnackBar(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-            if (body.isNotEmpty) Text(body),
-          ],
-        ),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
   }
 }
