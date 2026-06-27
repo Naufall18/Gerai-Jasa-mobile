@@ -34,20 +34,43 @@ class VendorFilter {
 class VendorFilterNotifier extends StateNotifier<VendorFilter> {
   VendorFilterNotifier() : super(const VendorFilter());
 
+  // NOTE: build a fresh VendorFilter explicitly (not copyWith) so a field can be
+  // cleared back to null — copyWith's `value ?? this.value` kept stale values,
+  // which made clearing the search box leave the list stuck on old results.
   void setCategory(String? categoryId) {
-    state = state.copyWith(categoryId: categoryId, clearCategory: categoryId == null);
+    state = VendorFilter(
+      categoryId: (categoryId == null || categoryId.isEmpty) ? null : categoryId,
+      city: state.city,
+      minRating: state.minRating,
+      search: state.search,
+    );
   }
 
   void setCity(String? city) {
-    state = state.copyWith(city: city);
+    state = VendorFilter(
+      categoryId: state.categoryId,
+      city: (city == null || city.isEmpty) ? null : city,
+      minRating: state.minRating,
+      search: state.search,
+    );
   }
 
   void setSearch(String? search) {
-    state = state.copyWith(search: search);
+    state = VendorFilter(
+      categoryId: state.categoryId,
+      city: state.city,
+      minRating: state.minRating,
+      search: (search == null || search.isEmpty) ? null : search,
+    );
   }
 
   void setMinRating(double? rating) {
-    state = state.copyWith(minRating: rating);
+    state = VendorFilter(
+      categoryId: state.categoryId,
+      city: state.city,
+      minRating: rating,
+      search: state.search,
+    );
   }
 
   void reset() {

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../auth/providers/auth_provider.dart';
-import '../../../core/widgets/gj_toast.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -86,19 +85,19 @@ class ProfileScreen extends ConsumerWidget {
                     _buildMenuItem(
                       icon: Icons.notifications_none_rounded,
                       title: 'Pengaturan Notifikasi',
-                      onTap: () => GJToast.info('Fitur pengaturan notifikasi segera hadir.'),
+                      onTap: () => context.push('/settings/notifications'),
                     ),
                     const Divider(height: 1),
                     _buildMenuItem(
                       icon: Icons.help_outline_rounded,
                       title: 'Bantuan & FAQ',
-                      onTap: () => GJToast.info('Fitur Bantuan segera hadir.'),
+                      onTap: () => context.push('/help'),
                     ),
                     const Divider(height: 1),
                     _buildMenuItem(
                       icon: Icons.privacy_tip_outlined,
                       title: 'Kebijakan Privasi',
-                      onTap: () => GJToast.info('Fitur Kebijakan Privasi segera hadir.'),
+                      onTap: () => context.push('/privacy'),
                     ),
                   ],
                 ),
