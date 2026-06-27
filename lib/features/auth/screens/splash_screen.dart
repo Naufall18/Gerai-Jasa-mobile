@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/design_tokens.dart';
+import '../../../core/widgets/gj_logo.dart';
 import '../providers/auth_provider.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
@@ -133,10 +134,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                       );
                     },
                     child: Container(
-                      width: 96,
-                      height: 96,
                       decoration: BoxDecoration(
-                        color: Colors.white,
                         borderRadius: BorderRadius.circular(28),
                         boxShadow: [
                           BoxShadow(
@@ -146,11 +144,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                           ),
                         ],
                       ),
-                      child: const Icon(
-                        Icons.bolt_rounded,
-                        color: GJColors.primary,
-                        size: 56,
-                      ),
+                      child: const GJLogo(size: 96),
                     ),
                   ),
                   const SizedBox(height: 28),
