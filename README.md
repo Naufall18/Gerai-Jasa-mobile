@@ -1,103 +1,132 @@
-# Gerai Jasa Mobile App
+<div align="center">
 
-Flutter 3.x customer app for **Gerai Jasa** — a multi-vendor booking platform (salons, clinics, workshops, etc.) for the Indonesian market.
+# 📱 Gerai Jasa — Mobile App
 
-## Tech Stack
+**Customer app for the Gerai Jasa booking platform**
+<br/>
+Find and book services — salons, clinics, workshops & more — in a few taps.
 
-- **Flutter 3.x** (Dart)
-- **Riverpod** (state management)
-- **GoRouter** (navigation with auth guard)
-- **Dio** (HTTP client with interceptors)
-- **Freezed** + **json_serializable** (immutable models)
-- **Flutter Secure Storage** (token storage)
-- **Firebase Messaging** (push notifications)
-- **Cached Network Image** (image caching)
-- **Shimmer** (loading skeletons)
-- **Lottie** (animations)
-- **Google Fonts** (Plus Jakarta Sans)
+<p>
+  <img src="https://img.shields.io/badge/status-Selesai-brightgreen?style=for-the-badge" alt="Status" />
+  <img src="https://img.shields.io/badge/Flutter-3-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" />
+  <img src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart" />
+  <img src="https://img.shields.io/badge/Riverpod-1E88E5?style=for-the-badge" alt="Riverpod" />
+  <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" alt="Firebase" />
+  <img src="https://img.shields.io/badge/license-MIT-1E6F5C?style=for-the-badge" alt="License" />
+</p>
 
-## Features
+</div>
 
-### Auth Flow
-- 🚀 **Splash Screen** — Animated logo, token check, auto-redirect
-- 📱 **Onboarding** — 3 slides with Lottie animations
-- 📲 **Phone OTP Login** — Phone input → 6-digit OTP verification
-- 👤 **Profile Setup** — Name & email after first login
+---
 
-### Main Flow (Bottom Navigation)
-- 🏠 **Home** — Search bar, category chips, featured vendors, nearby vendors
-- 🔍 **Search** — Debounced search, filter bottom sheet, infinite scroll results
-- 📋 **My Bookings** — Tabs (upcoming/history), booking cards with status badges
-- 👤 **Profile** — User info, settings, logout
+## 📖 Overview
 
-### Booking Flow
-- 🏪 **Vendor Detail** — Hero image parallax, services, reviews, "Book Now" button
-- 📅 **Booking Steps** — Select service → date → time slot → confirmation
+The **Gerai Jasa Mobile App** is the customer-facing Flutter app for the platform. It covers the full journey: onboarding, OTP login, discovering vendors, booking a slot, paying, and leaving a review — all in a polished, native-feeling experience.
+
+---
+
+## 🧱 Tech Stack
+
+| Area | Technology |
+|------|------------|
+| **Core** | Flutter 3.x · Dart |
+| **State** | Riverpod |
+| **Navigation** | GoRouter (with auth guard) |
+| **Network** | Dio (interceptors) |
+| **Models** | Freezed + json_serializable |
+| **Storage** | Flutter Secure Storage |
+| **Push** | Firebase Cloud Messaging |
+| **UI** | Cached Network Image · Shimmer · Lottie · Google Fonts (Plus Jakarta Sans) |
+
+---
+
+## ✨ Features
+
+### 🔐 Auth Flow
+- 🚀 **Splash** — animated logo, token check, auto-redirect
+- 📖 **Onboarding** — 3 slides with Lottie animations
+- 📲 **Phone OTP Login** — phone input → 6-digit OTP verification
+- 👤 **Profile Setup** — name & email after first login
+
+### 🧭 Main Flow (Bottom Navigation)
+- 🏠 **Home** — search bar, category chips, featured & nearby vendors
+- 🔍 **Search** — debounced search, filter bottom sheet, infinite scroll
+- 📋 **My Bookings** — tabs (upcoming / history) with status badges
+- 👤 **Profile** — user info, settings, logout
+
+### 🛒 Booking Flow
+- 🏪 **Vendor Detail** — parallax hero image, services, reviews, "Book Now"
+- 📅 **Booking Steps** — select service → date → time slot → confirmation
 - 💳 **Payment** — Midtrans Snap WebView, Xendit, or COD
-- ✅ **Booking Success** — Lottie animation, booking code display
+- ✅ **Booking Success** — Lottie animation + booking code
+- 📖 **Booking Detail** — full info, status timeline, cancel/review actions
+- ⭐ **Review** — star rating + comment
 
-### Other Screens
-- 📖 **Booking Detail** — Full info, status timeline, cancel/review actions
-- ⭐ **Review** — Star rating + comment input
+---
 
-## Design System
+## 🎨 Design System
 
-- **Primary**: Indigo `#6366F1`
-- **Accent**: Coral `#F97316`
-- **Background**: `#F8F7FF` (light lavender-white)
-- **Text**: `#1E1B4B` (dark indigo)
-- **Font**: Plus Jakarta Sans
-- **Corner radius**: 16px cards, 12px buttons, 24px bottom sheets
+| Token | Value |
+|-------|-------|
+| Primary | Indigo `#6366F1` |
+| Accent | Coral `#F97316` |
+| Background | `#F8F7FF` (lavender-white) |
+| Text | `#1E1B4B` (dark indigo) |
+| Font | Plus Jakarta Sans |
+| Radius | 16px cards · 12px buttons · 24px sheets |
 
-## Folder Structure
+---
+
+## 🗂️ Project Structure
 
 ```
 lib/
 ├── core/
-│   ├── api/           # Dio client, interceptors
-│   ├── constants/     # App constants (base URL, keys)
-│   ├── router/        # GoRouter config with auth guard
-│   ├── theme/         # App theme, colors, text styles
-│   └── utils/         # Helpers, formatters
+│   ├── api/         # Dio client, interceptors
+│   ├── constants/   # App constants (base URL, keys)
+│   ├── router/      # GoRouter config with auth guard
+│   ├── theme/       # Theme, colors, text styles
+│   └── utils/       # Helpers, formatters
 ├── features/
-│   ├── auth/          # Splash, onboarding, OTP login, profile setup
-│   ├── home/          # Home screen, categories, featured vendors
-│   ├── search/        # Search, filters, results
-│   ├── booking/       # Booking flow, vendor detail, calendar
-│   ├── payment/       # Payment selection, Midtrans WebView
-│   └── profile/       # Profile, settings
+│   ├── auth/        # Splash, onboarding, OTP login, profile setup
+│   ├── home/        # Home, categories, featured vendors
+│   ├── search/      # Search, filters, results
+│   ├── booking/     # Booking flow, vendor detail, calendar
+│   ├── payment/     # Payment selection, Midtrans WebView
+│   └── profile/     # Profile, settings
 └── shared/
-    ├── widgets/       # Reusable widgets (shimmer, empty state, etc.)
-    └── models/        # Shared data models
+    ├── widgets/     # Reusable widgets (shimmer, empty state, etc.)
+    └── models/      # Shared data models
 ```
 
-## Setup
+---
+
+## 🚀 Getting Started
 
 ```bash
 # Clone
-git clone https://github.com/Naufall18/geraijasa-mobile.git
-cd geraijasa-mobile
+git clone https://github.com/Naufall18/Gerai-Jasa-mobile.git
+cd Gerai-Jasa-mobile
 
 # Install dependencies
 flutter pub get
 
-# Generate freezed/json_serializable models
+# Generate freezed / json_serializable models
 dart run build_runner build --delete-conflicting-outputs
 
-# Update API base URL
-# Edit lib/core/constants/app_constants.dart
+# Update API base URL in lib/core/constants/app_constants.dart
 
-# Run on device/emulator
+# Run on a device/emulator
 flutter run
 
-# Build APK
+# Release builds
 flutter build apk --release
-
-# Build iOS
 flutter build ios --release
 ```
 
-## Configuration
+> Firebase setup (FCM) is documented in [`FIREBASE_SETUP.md`](FIREBASE_SETUP.md).
+
+### Configuration
 
 ```dart
 // lib/core/constants/app_constants.dart
@@ -111,11 +140,23 @@ class AppConstants {
 }
 ```
 
-## Related Repositories
+---
 
-- **Backend API**: [geraijasa-backend](https://github.com/Naufall18/geraijasa-backend) — Laravel 11 REST API
-- **Web Dashboard**: [geraijasa-web](https://github.com/Naufall18/geraijasa-web) — React 18 + TypeScript (Admin & Vendor Dashboard)
+## 🧩 Part of the Gerai Jasa Platform
 
-## License
+| Repository | Stack | Role |
+|------------|-------|------|
+| [Gerai-Jasa-backend](https://github.com/Naufall18/Gerai-Jasa-backend) | Laravel 11 | REST API & booking engine |
+| [Gerai-Jasa-web](https://github.com/Naufall18/Gerai-Jasa-web) | React + TypeScript | Admin & vendor dashboard |
+| **Gerai-Jasa-mobile** *(this repo)* | Flutter | Customer app |
 
-MIT
+---
+
+## 📄 License
+
+Released under the **MIT License**.
+
+<div align="center">
+<br/>
+Built by <a href="https://github.com/Naufall18">Naufal Dwi Arifianto</a> · <a href="https://naufall18.github.io/portofolio/">Portfolio</a>
+</div>
