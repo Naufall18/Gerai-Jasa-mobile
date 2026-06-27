@@ -1,121 +1,198 @@
 # Gerai Jasa Mobile App
 
-Flutter 3.x customer app for **Gerai Jasa** — a multi-vendor booking platform (salons, clinics, workshops, etc.) for the Indonesian market.
+Flutter 3.x customer app untuk **Gerai Jasa** — platform booking multi-vendor (salon, klinik, bengkel, dll) untuk pasar Indonesia.
+
+**Desain:** Pine & Amber (#1E6F5C primary, #F2A444 accent)
+**Font:** Plus Jakarta Sans
+
+---
 
 ## Tech Stack
 
-- **Flutter 3.x** (Dart)
+- **Flutter 3.x** (Dart 3)
 - **Riverpod** (state management)
-- **GoRouter** (navigation with auth guard)
-- **Dio** (HTTP client with interceptors)
+- **GoRouter** (navigation + auth guard)
+- **Dio** (HTTP client)
 - **Freezed** + **json_serializable** (immutable models)
-- **Flutter Secure Storage** (token storage)
+- **flutter_secure_storage** (token storage)
 - **Firebase Messaging** (push notifications)
-- **Cached Network Image** (image caching)
-- **Shimmer** (loading skeletons)
+- **cached_network_image** (image caching)
+- **shimmer** (loading skeletons)
 - **Lottie** (animations)
-- **Google Fonts** (Plus Jakarta Sans)
+- **flutter_svg** (SVG support)
+- **url_launcher** (WA & email links)
+- **webview_flutter** (Midtrans payment)
 
-## Features
+---
 
-### Auth Flow
-- 🚀 **Splash Screen** — Animated logo, token check, auto-redirect
-- 📱 **Onboarding** — 3 slides with Lottie animations
-- 📲 **Phone OTP Login** — Phone input → 6-digit OTP verification
-- 👤 **Profile Setup** — Name & email after first login
+## Fitur
 
-### Main Flow (Bottom Navigation)
-- 🏠 **Home** — Search bar, category chips, featured vendors, nearby vendors
-- 🔍 **Search** — Debounced search, filter bottom sheet, infinite scroll results
-- 📋 **My Bookings** — Tabs (upcoming/history), booking cards with status badges
-- 👤 **Profile** — User info, settings, logout
+### Auth
+- Splash screen dengan logo animasi + auto-token check
+- Onboarding 3 slide (SVG ilustrasi unDraw, recolored ke brand)
+- Login via OTP WhatsApp (input nomor → 6 digit OTP)
+- Profile setup setelah first login (nama & email)
+
+### Home
+- Greeting personalized dengan nama user
+- Search bar (tap → `/search`)
+- Category chips (filter vendor by kategori)
+- Vendor unggulan (horizontal scroll, hero image + rating)
+- Semua vendor (list vertikal dengan GJVendorCard)
+- Pull-to-refresh
+
+### Search
+- Debounced search
+- Filter bottom sheet (kategori, lokasi, harga)
+- Infinite scroll pagination
 
 ### Booking Flow
-- 🏪 **Vendor Detail** — Hero image parallax, services, reviews, "Book Now" button
-- 📅 **Booking Steps** — Select service → date → time slot → confirmation
-- 💳 **Payment** — Midtrans Snap WebView, Xendit, or COD
-- ✅ **Booking Success** — Lottie animation, booking code display
+- **Vendor Detail** — Hero image parallax, info vendor, daftar layanan, tombol booking
+- **Booking Steps** — Pilih tanggal → pilih slot waktu → catatan → metode bayar
+- **Payment** — Midtrans WebView atau COD
+- **Success** — Animasi Lottie + kode booking
 
-### Other Screens
-- 📖 **Booking Detail** — Full info, status timeline, cancel/review actions
-- ⭐ **Review** — Star rating + comment input
+### My Bookings
+- Tab: Mendatang / Riwayat
+- Tiap kartu: kode booking, nama vendor, layanan, jadwal, total harga, status badge
+- Tap → detail booking
+- Vendor photo di kartu booking
+
+### Booking Detail
+- Status & kode booking
+- Informasi layanan (vendor, tanggal, jam)
+- Informasi pembayaran
+- Catatan pelanggan
+- Tombol: **Batalkan Booking** (pending/confirmed), **Berikan Ulasan** (completed)
+
+### Review
+- Rating 1–5 bintang
+- Komentar
+- Submit ke endpoint `/bookings/{id}/review`
+
+### Profile
+- Foto avatar, nama, email
+- Menu: Edit Profile, Notifikasi, Bantuan, Kebijakan Privasi, Logout
+
+### Notifications
+- Firebase Cloud Messaging (push notification)
+- Deep link ke booking detail saat notifikasi di-tap
+- Foreground toast (GJToast slide from right)
+
+---
 
 ## Design System
 
-- **Primary**: Indigo `#6366F1`
-- **Accent**: Coral `#F97316`
-- **Background**: `#F8F7FF` (light lavender-white)
-- **Text**: `#1E1B4B` (dark indigo)
-- **Font**: Plus Jakarta Sans
-- **Corner radius**: 16px cards, 12px buttons, 24px bottom sheets
+### Tokens (lihat `lib/core/theme/design_tokens.dart`)
+| Token | Value |
+|-------|-------|
+| `GJColors.primary` | #1E6F5C |
+| `GJColors.accent` | #F2A444 |
+| `GJColors.ink` | #14241F |
+| `GJColors.surface` | #FBFAF7 |
+| `GJSpacing.lg` | 16px |
+| `GJRadius.card` | BorderRadius asimetris (6, 18, 18, 18) |
+| `GJMotion.base` | 250ms easeOutCubic |
+| `GJShadow.sm` | Subtle shadow |
 
-## Folder Structure
+### Widgets Bersama
+| Widget | Lokasi | Fungsi |
+|--------|--------|--------|
+| `GJVendorCard` | `core/widgets/` | Kartu vendor horizontal (home & search) |
+| `GJShimmer` | `core/widgets/` | Loading skeleton |
+| `GJEmptyState` | `core/widgets/` | Empty state dengan icon + teks |
+| `GJToast` | `core/widgets/` | Animated toast (slide from right) |
+| `GJBottomNav` | `core/widgets/` | Bottom navigation bar |
+
+---
+
+## Struktur Folder
 
 ```
 lib/
 ├── core/
-│   ├── api/           # Dio client, interceptors
-│   ├── constants/     # App constants (base URL, keys)
-│   ├── router/        # GoRouter config with auth guard
-│   ├── theme/         # App theme, colors, text styles
-│   └── utils/         # Helpers, formatters
+│   ├── api/               # Dio client, interceptors
+│   ├── constants/          # AppConstants (base URL, LAN IP)
+│   ├── router/             # GoRouter + auth redirect
+│   ├── services/           # PushNotificationService
+│   ├── theme/              # Design tokens (GJColors, GJSpacing, dll)
+│   └── widgets/            # Widget bersama (GJVendorCard, GJShimmer, dll)
 ├── features/
-│   ├── auth/          # Splash, onboarding, OTP login, profile setup
-│   ├── home/          # Home screen, categories, featured vendors
-│   ├── search/        # Search, filters, results
-│   ├── booking/       # Booking flow, vendor detail, calendar
-│   ├── payment/       # Payment selection, Midtrans WebView
-│   └── profile/       # Profile, settings
+│   ├── auth/               # Splash, Onboarding, PhoneInput, OTP, ProfileSetup
+│   ├── home/               # Home screen, categories, vendors
+│   ├── search/             # Search, filters, results
+│   ├── booking/            # VendorDetail, Booking, Bookings, BookingDetail, Review
+│   ├── payment/            # Payment, PaymentWebView, BookingSuccess
+│   ├── notifications/      # Notifications list screen
+│   └── profile/            # Profile, EditProfile, Help, Privacy, NotificationSettings
 └── shared/
-    ├── widgets/       # Reusable widgets (shimmer, empty state, etc.)
-    └── models/        # Shared data models
+    ├── models/             # Data models (BookingModel, VendorModel, dll)
+    └── providers/          # Shared providers (booking, vendor)
 ```
+
+---
 
 ## Setup
 
 ```bash
-# Clone
-git clone https://github.com/Naufall18/geraijasa-mobile.git
-cd geraijasa-mobile
+git clone https://github.com/Naufall18/Gerai-Jasa-mobile.git
+cd Gerai-Jasa-mobile
 
-# Install dependencies
 flutter pub get
 
-# Generate freezed/json_serializable models
-dart run build_runner build --delete-conflicting-outputs
+# Update API base URL di lib/core/constants/app_constants.dart
+# Atur LAN IP sesuai IP laptop di jaringan WiFi
 
-# Update API base URL
-# Edit lib/core/constants/app_constants.dart
-
-# Run on device/emulator
 flutter run
-
-# Build APK
-flutter build apk --release
-
-# Build iOS
-flutter build ios --release
 ```
 
-## Configuration
+### Konfigurasi
 
 ```dart
 // lib/core/constants/app_constants.dart
-class AppConstants {
-  static const String baseUrl = 'http://localhost:8000/api/v1';
-  static const String midtransClientKey = '';
-  static const String appName = 'Gerai Jasa';
-  static const int otpLength = 6;
-  static const int otpTimeout = 60; // seconds
-  static const int slotCacheSeconds = 60;
-}
+static const String lanIp = '192.168.1.4';  // IP laptop di WiFi
 ```
 
-## Related Repositories
+Gunakan `--dart-define` untuk override:
+```bash
+flutter run --dart-define=API_BASE_URL=http://192.168.1.4:8000/api/v1
+```
 
-- **Backend API**: [geraijasa-backend](https://github.com/Naufall18/geraijasa-backend) — Laravel 11 REST API
-- **Web Dashboard**: [geraijasa-web](https://github.com/Naufall18/geraijasa-web) — React 18 + TypeScript (Admin & Vendor Dashboard)
+### Build
 
-## License
+```bash
+# Android APK
+flutter build apk --release
+
+# Android App Bundle (Play Store)
+flutter build appbundle --release
+
+# iOS (macOS required)
+flutter build ios --release
+```
+
+---
+
+## Troubleshooting
+
+### Foto avatar tidak muncul
+- Pastikan `lanIp` di `app_constants.dart` sesuai IP laptop
+- Cek koneksi HP ke WiFi yang sama dengan laptop
+
+### Firebase notifikasi tidak work
+- Generate `firebase_options.dart`: `flutterfire configure`
+- Download `google-services.json` ke `android/app/`
+
+---
+
+## Repositori Terkait
+
+- **Backend API**: [Gerai-Jasa-backend](https://github.com/Naufall18/Gerai-Jasa-backend)
+- **Web Dashboard**: [Gerai-Jasa-web](https://github.com/Naufall18/Gerai-Jasa-web)
+- **Fullstack**: [Gerai-Jasa](https://github.com/Naufall18/Gerai-Jasa)
+
+---
+
+## Lisensi
 
 MIT
