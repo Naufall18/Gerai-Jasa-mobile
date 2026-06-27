@@ -92,11 +92,11 @@ class _GJToastWidgetState extends State<_GJToastWidget>
       reverseDuration: const Duration(milliseconds: 300),
     );
     _slide = Tween<Offset>(
-      begin: const Offset(0, -1.2),
+      begin: const Offset(1.3, 0),
       end: Offset.zero,
     ).animate(CurvedAnimation(
       parent: _controller,
-      curve: Curves.easeOutBack,
+      curve: Curves.easeOutCubic,
       reverseCurve: Curves.easeInCubic,
     ));
     _fade = CurvedAnimation(parent: _controller, curve: Curves.easeOut);

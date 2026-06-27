@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/design_tokens.dart';
 
@@ -34,7 +35,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       'Cari salon, klinik, bengkel, dan layanan lain di sekitarmu — semua dalam satu aplikasi.',
       GJColors.primary,
       GJColors.primarySoft,
-      'assets/onboarding/onboarding_1.jpg',
+      'assets/onboarding/onboarding_search.svg',
     ),
     _OnbSlide(
       Icons.event_available_rounded,
@@ -42,7 +43,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       'Pesan slot waktu yang tersedia secara real-time. Tanpa antre, tanpa telepon manual.',
       GJColors.accent,
       GJColors.accentSoft,
-      'assets/onboarding/onboarding_2.jpg',
+      'assets/onboarding/onboarding_calendar.svg',
     ),
     _OnbSlide(
       Icons.verified_user_rounded,
@@ -50,7 +51,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       'Transfer bank, e-wallet, atau Bayar di Tempat (COD). Pilih yang paling nyaman untukmu.',
       GJColors.info,
       GJColors.infoSoft,
-      'assets/onboarding/onboarding_3.jpg',
+      'assets/onboarding/onboarding_payment.svg',
     ),
   ];
 
@@ -208,13 +209,11 @@ class _OnboardingScreenState extends State<OnboardingScreen>
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Image.asset(
+            SvgPicture.asset(
               slide.image,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stack) => Container(
-                color: slide.soft,
-                child: Icon(slide.icon, size: 72, color: slide.color),
-              ),
+              height: 320,
+              width: 260,
             ),
             // Brand-tinted scrim for a cohesive, premium look.
             DecoratedBox(
