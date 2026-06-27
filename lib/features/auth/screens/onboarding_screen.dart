@@ -187,63 +187,48 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   Widget _illustration(_OnbSlide slide) {
     const radius = BorderRadius.only(
       topLeft: Radius.circular(28),
-      topRight: Radius.circular(80),
-      bottomLeft: Radius.circular(80),
+      topRight: Radius.circular(72),
+      bottomLeft: Radius.circular(72),
       bottomRight: Radius.circular(28),
     );
     return Container(
-      width: 260,
-      height: 320,
+      width: 300,
+      height: 300,
       decoration: BoxDecoration(
+        // Soft brand-tinted card; the flat illustration sits fully inside it.
+        color: slide.soft,
         borderRadius: radius,
         boxShadow: [
           BoxShadow(
-            color: slide.color.withValues(alpha: 0.28),
-            blurRadius: 32,
-            offset: const Offset(0, 18),
+            color: slide.color.withValues(alpha: 0.18),
+            blurRadius: 30,
+            offset: const Offset(0, 16),
           ),
         ],
       ),
-      child: ClipRRect(
-        borderRadius: radius,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            SvgPicture.asset(
-              slide.image,
-              fit: BoxFit.cover,
-              height: 320,
-              width: 260,
+      child: Stack(
+        children: [
+          // Show the WHOLE illustration (contain), never cropped.
+          Padding(
+            padding: const EdgeInsets.all(GJSpacing.xxl),
+            child: Center(
+              child: SvgPicture.asset(slide.image, fit: BoxFit.contain),
             ),
-            // Brand-tinted scrim for a cohesive, premium look.
-            DecoratedBox(
+          ),
+          Positioned(
+            left: GJSpacing.lg,
+            bottom: GJSpacing.lg,
+            child: Container(
+              padding: const EdgeInsets.all(GJSpacing.sm + 2),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.transparent,
-                    slide.color.withValues(alpha: 0.55),
-                  ],
-                ),
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: GJShadow.sm,
               ),
+              child: Icon(slide.icon, color: slide.color, size: 22),
             ),
-            // Floating icon chip.
-            Positioned(
-              left: GJSpacing.lg,
-              bottom: GJSpacing.lg,
-              child: Container(
-                padding: const EdgeInsets.all(GJSpacing.md),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: GJShadow.sm,
-                ),
-                child: Icon(slide.icon, color: slide.color, size: 24),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
