@@ -129,7 +129,7 @@ class _BookingList extends StatelessWidget {
             color: Colors.white,
             surfaceTintColor: Colors.white,
             child: InkWell(
-              onTap: () => context.push('/booking/${booking.id}'),
+              onTap: () => context.push('/booking-detail/${booking.id}'),
               borderRadius: BorderRadius.circular(16),
               child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -153,14 +153,27 @@ class _BookingList extends StatelessWidget {
                     const Divider(height: 24),
                     Row(
                       children: [
-                        Container(
-                          width: 48,
-                          height: 48,
-                          decoration: BoxDecoration(
-                            color: const Color(0xfff4f3ff),
-                            borderRadius: BorderRadius.circular(12),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: SizedBox(
+                            width: 48,
+                            height: 48,
+                            child: booking.vendor?.photos.isNotEmpty == true
+                                ? Image.network(
+                                    booking.vendor!.photos.first.url,
+                                    width: 48,
+                                    height: 48,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (_, __, ___) => Container(
+                                      color: const Color(0xfff4f3ff),
+                                      child: const Icon(Icons.storefront_rounded, color: Color(0xFF1E6F5C)),
+                                    ),
+                                  )
+                                : Container(
+                                    color: const Color(0xfff4f3ff),
+                                    child: const Icon(Icons.storefront_rounded, color: Color(0xFF1E6F5C)),
+                                  ),
                           ),
-                          child: const Icon(Icons.storefront_rounded, color: Color(0xFF1E6F5C)),
                         ),
                         const SizedBox(width: 12),
                         Expanded(

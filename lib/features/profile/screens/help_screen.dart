@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../core/theme/design_tokens.dart';
-import '../../../core/widgets/gj_toast.dart';
 
 class HelpScreen extends StatelessWidget {
   const HelpScreen({super.key});
@@ -124,11 +124,11 @@ class HelpScreen extends StatelessWidget {
                     letterSpacing: 1,
                     color: GJColors.textSoft)),
           ),
-          _contactTile(Icons.chat_rounded, 'WhatsApp', '+62 812-0000-0000',
-              () => GJToast.info('Membuka WhatsApp segera tersedia.')),
+          _contactTile(Icons.chat_rounded, 'WhatsApp', '+62 822-4408-9648',
+              () => launchUrl(Uri.parse('https://wa.me/6282244089648'))),
           const SizedBox(height: GJSpacing.sm),
-          _contactTile(Icons.email_rounded, 'Email', 'support@geraijasa.id',
-              () => GJToast.info('Membuka email segera tersedia.')),
+          _contactTile(Icons.email_rounded, 'Email', 'naufan970@gmail.com',
+              () => launchUrl(Uri.parse('mailto:naufan970@gmail.com'))),
         ],
       ),
     );

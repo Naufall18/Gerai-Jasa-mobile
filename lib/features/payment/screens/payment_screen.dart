@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/api/api_client.dart';
+import '../../../core/theme/design_tokens.dart';
 import 'payment_webview_screen.dart';
 
 class PaymentScreen extends ConsumerStatefulWidget {
@@ -158,9 +159,10 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
                       child: ElevatedButton(
                         onPressed: _isPaying ? null : _startPayment,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF1E6F5C),
+                          backgroundColor: GJColors.primary,
                           foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(GJRadius.md)),
                         ),
                         child: _isPaying
                             ? const CircularProgressIndicator(color: Colors.white)

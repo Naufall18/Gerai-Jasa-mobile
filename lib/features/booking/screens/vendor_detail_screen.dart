@@ -4,6 +4,31 @@ import 'package:go_router/go_router.dart';
 import '../../../shared/providers/vendor_provider.dart';
 import '../../../core/widgets/gj_widgets.dart';
 
+Widget _buildVendorPlaceholder(String name) {
+  return Container(
+    decoration: const BoxDecoration(
+      gradient: LinearGradient(
+        colors: [Color(0xFF1E6F5C), Color(0xFF14463B)],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+    ),
+    child: Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.storefront_rounded, size: 60, color: Colors.white38),
+          const SizedBox(height: 8),
+          Text(
+            name.isNotEmpty ? name[0].toUpperCase() : '?',
+            style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Colors.white24),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
 class VendorDetailScreen extends ConsumerWidget {
   final String slug;
 
@@ -17,7 +42,7 @@ class VendorDetailScreen extends ConsumerWidget {
       backgroundColor: const Color(0xFFFBFAF7),
       body: detailAsync.when(
         data: (vendor) {
-          final imageUrl = vendor.photos.isNotEmpty ? vendor.photos.first.url : 'https://picsum.photos/600/400';
+          final hasPhoto = vendor.photos.isNotEmpty;
           return CustomScrollView(
             slivers: [
               SliverAppBar(
@@ -35,15 +60,14 @@ class VendorDetailScreen extends ConsumerWidget {
                   ),
                   background: Hero(
                     tag: 'vendor-$slug',
-                    child: Image.network(
-                      imageUrl,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      errorBuilder: (context, error, stackTrace) => Container(
-                        color: Colors.grey.shade300,
-                        child: const Icon(Icons.image, size: 50, color: Colors.grey),
-                      ),
-                    ),
+                    child: hasPhoto
+                        ? Image.network(
+                            vendor.photos.first.url,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            errorBuilder: (_, __, ___) => _buildVendorPlaceholder(vendor.name),
+                          )
+                        : _buildVendorPlaceholder(vendor.name),
                   ),
                 ),
               ),

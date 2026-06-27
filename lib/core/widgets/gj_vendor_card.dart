@@ -3,6 +3,27 @@ import 'package:go_router/go_router.dart';
 import '../../shared/models/models.dart';
 import '../theme/design_tokens.dart';
 
+Widget _buildPlaceholder(String name) {
+  return Container(
+    width: 76,
+    height: 76,
+    decoration: BoxDecoration(
+      gradient: const LinearGradient(
+        colors: [GJColors.primary, GJColors.primaryDark],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      borderRadius: BorderRadius.circular(GJRadius.md),
+    ),
+    child: Center(
+      child: Text(
+        name.isNotEmpty ? name[0].toUpperCase() : '?',
+        style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white38),
+      ),
+    ),
+  );
+}
+
 /// Kartu vendor horizontal yang dipakai bersama (home & pencarian).
 /// Satu sumber gaya — hindari duplikasi markup di tiap layar.
 class GJVendorCard extends StatelessWidget {
@@ -16,23 +37,20 @@ class GJVendorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageUrl = vendor.photos.isNotEmpty
-        ? vendor.photos.first.url
-        : 'https://picsum.photos/seed/${vendor.id}/100/100';
-
     Widget image = ClipRRect(
       borderRadius: BorderRadius.circular(GJRadius.md),
-      child: Image.network(
-        imageUrl,
+      child: SizedBox(
         width: 76,
         height: 76,
-        fit: BoxFit.cover,
-        errorBuilder: (_, __, ___) => Container(
-          width: 76,
-          height: 76,
-          color: GJColors.surfaceAlt,
-          child: const Icon(Icons.storefront_rounded, size: 34, color: GJColors.primary),
-        ),
+        child: vendor.photos.isNotEmpty
+            ? Image.network(
+                vendor.photos.first.url,
+                width: 76,
+                height: 76,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => _buildPlaceholder(vendor.name),
+              )
+            : _buildPlaceholder(vendor.name),
       ),
     );
     if (hero) {

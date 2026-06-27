@@ -430,12 +430,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     color: GJColors.ink,
                   ),
                 ),
-                Text(
-                  'Lihat semua',
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: GJColors.primary,
+                GestureDetector(
+                  onTap: () => context.push('/search'),
+                  child: Text(
+                    'Lihat semua',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: GJColors.primary,
+                    ),
                   ),
                 ),
               ],
@@ -511,6 +514,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   }
 }
 
+Widget _featuredPlaceholder(String name) {
+  return Container(
+    height: 130,
+    decoration: const BoxDecoration(
+      gradient: LinearGradient(
+        colors: [GJColors.primary, GJColors.primaryDark],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+    ),
+    child: Center(
+      child: Text(
+        name.isNotEmpty ? name[0].toUpperCase() : '?',
+        style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Colors.white24),
+      ),
+    ),
+  );
+}
+
 class _FeaturedVendorCard extends StatefulWidget {
   final VendorModel vendor;
   final double delay;
@@ -549,9 +571,7 @@ class _FeaturedVendorCardState extends State<_FeaturedVendorCard>
   @override
   Widget build(BuildContext context) {
     final vendor = widget.vendor;
-    final imageUrl = vendor.photos.isNotEmpty
-        ? vendor.photos.first.url
-        : 'https://picsum.photos/seed/${vendor.id}/400/200';
+    final hasPhoto = vendor.photos.isNotEmpty;
 
     return AnimatedBuilder(
       animation: _anim,
@@ -581,17 +601,15 @@ class _FeaturedVendorCardState extends State<_FeaturedVendorCard>
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(18)),
                   child: Stack(
                     children: [
-                      Image.network(
-                        imageUrl,
-                        height: 130,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => Container(
-                          height: 130,
-                          color: GJColors.surfaceAlt,
-                          child: const Icon(Icons.image, color: GJColors.textSoft),
-                        ),
-                      ),
+                      hasPhoto
+                          ? Image.network(
+                              vendor.photos.first.url,
+                              height: 130,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) => _featuredPlaceholder(vendor.name),
+                            )
+                          : _featuredPlaceholder(vendor.name),
                       Positioned(
                         top: 8,
                         right: 8,

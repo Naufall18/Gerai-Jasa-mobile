@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../../shared/providers/booking_provider.dart';
 import '../../../shared/providers/vendor_provider.dart';
+import '../../../core/theme/design_tokens.dart';
 import '../../../core/widgets/gj_toast.dart';
 
 class BookingScreen extends ConsumerStatefulWidget {
@@ -324,9 +325,10 @@ class _BookingScreenState extends ConsumerState<BookingScreen> {
                 child: ElevatedButton(
                   onPressed: _isSubmitting ? null : _submitBooking,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1E6F5C),
+                    backgroundColor: GJColors.primary,
                     foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(GJRadius.md)),
                   ),
                   child: _isSubmitting
                       ? const CircularProgressIndicator(color: Colors.white)
