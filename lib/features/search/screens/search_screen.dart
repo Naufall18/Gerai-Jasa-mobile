@@ -25,8 +25,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   void _onSearchChanged(String val) {
+    setState(() {}); // refresh the clear (x) button visibility
     _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 500), () {
+    _debounce = Timer(const Duration(milliseconds: 400), () {
       // Update the provider filter to trigger API re-fetch with debounce
       ref.read(vendorFilterProvider.notifier).setSearch(val.trim().isEmpty ? null : val.trim());
     });
@@ -71,6 +72,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                         onPressed: () {
                           _searchController.clear();
                           ref.read(vendorFilterProvider.notifier).setSearch(null);
+                          setState(() {});
                         },
                       )
                     : null,
