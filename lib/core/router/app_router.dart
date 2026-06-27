@@ -18,6 +18,9 @@ import '../../features/booking/screens/booking_detail_screen.dart';
 import '../../features/booking/screens/review_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
 import '../../features/profile/screens/edit_profile_screen.dart';
+import '../../features/profile/screens/notification_settings_screen.dart';
+import '../../features/profile/screens/help_screen.dart';
+import '../../features/profile/screens/privacy_policy_screen.dart';
 import '../../features/notifications/screens/notifications_screen.dart';
 import '../services/push_notification_service.dart';
 import '../widgets/gj_bottom_nav.dart';
@@ -170,6 +173,18 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/notifications',
         builder: (context, state) => const NotificationsScreen(),
+      ),
+      GoRoute(
+        path: '/settings/notifications',
+        builder: (context, state) => const NotificationSettingsScreen(),
+      ),
+      GoRoute(
+        path: '/help',
+        builder: (context, state) => const HelpScreen(),
+      ),
+      GoRoute(
+        path: '/privacy',
+        builder: (context, state) => const PrivacyPolicyScreen(),
       ),
     ],
   );
