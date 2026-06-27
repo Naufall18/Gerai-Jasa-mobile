@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/design_tokens.dart';
 
@@ -34,7 +35,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       'Cari salon, klinik, bengkel, dan layanan lain di sekitarmu — semua dalam satu aplikasi.',
       GJColors.primary,
       GJColors.primarySoft,
-      'assets/onboarding/onboarding_1.jpg',
+      'assets/onboarding/onboarding_search.svg',
     ),
     _OnbSlide(
       Icons.event_available_rounded,
@@ -42,7 +43,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       'Pesan slot waktu yang tersedia secara real-time. Tanpa antre, tanpa telepon manual.',
       GJColors.accent,
       GJColors.accentSoft,
-      'assets/onboarding/onboarding_2.jpg',
+      'assets/onboarding/onboarding_calendar.svg',
     ),
     _OnbSlide(
       Icons.verified_user_rounded,
@@ -50,7 +51,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       'Transfer bank, e-wallet, atau Bayar di Tempat (COD). Pilih yang paling nyaman untukmu.',
       GJColors.info,
       GJColors.infoSoft,
-      'assets/onboarding/onboarding_3.jpg',
+      'assets/onboarding/onboarding_payment.svg',
     ),
   ];
 
@@ -186,65 +187,48 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   Widget _illustration(_OnbSlide slide) {
     const radius = BorderRadius.only(
       topLeft: Radius.circular(28),
-      topRight: Radius.circular(80),
-      bottomLeft: Radius.circular(80),
+      topRight: Radius.circular(72),
+      bottomLeft: Radius.circular(72),
       bottomRight: Radius.circular(28),
     );
     return Container(
-      width: 260,
-      height: 320,
+      width: 300,
+      height: 300,
       decoration: BoxDecoration(
+        // Soft brand-tinted card; the flat illustration sits fully inside it.
+        color: slide.soft,
         borderRadius: radius,
         boxShadow: [
           BoxShadow(
-            color: slide.color.withValues(alpha: 0.28),
-            blurRadius: 32,
-            offset: const Offset(0, 18),
+            color: slide.color.withValues(alpha: 0.18),
+            blurRadius: 30,
+            offset: const Offset(0, 16),
           ),
         ],
       ),
-      child: ClipRRect(
-        borderRadius: radius,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Image.asset(
-              slide.image,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stack) => Container(
-                color: slide.soft,
-                child: Icon(slide.icon, size: 72, color: slide.color),
-              ),
+      child: Stack(
+        children: [
+          // Show the WHOLE illustration (contain), never cropped.
+          Padding(
+            padding: const EdgeInsets.all(GJSpacing.xxl),
+            child: Center(
+              child: SvgPicture.asset(slide.image, fit: BoxFit.contain),
             ),
-            // Brand-tinted scrim for a cohesive, premium look.
-            DecoratedBox(
+          ),
+          Positioned(
+            left: GJSpacing.lg,
+            bottom: GJSpacing.lg,
+            child: Container(
+              padding: const EdgeInsets.all(GJSpacing.sm + 2),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.transparent,
-                    slide.color.withValues(alpha: 0.55),
-                  ],
-                ),
+                color: Colors.white,
+                shape: BoxShape.circle,
+                boxShadow: GJShadow.sm,
               ),
+              child: Icon(slide.icon, color: slide.color, size: 22),
             ),
-            // Floating icon chip.
-            Positioned(
-              left: GJSpacing.lg,
-              bottom: GJSpacing.lg,
-              child: Container(
-                padding: const EdgeInsets.all(GJSpacing.md),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: GJShadow.sm,
-                ),
-                child: Icon(slide.icon, color: slide.color, size: 24),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

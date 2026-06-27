@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Gerai Jasa mark for the Android 12+ system splash: white awning + amber bolt
+     on the brand-green splash background. Vector (no PNG needed). Centered in a
+     160 viewport so it stays inside the splash icon's safe zone (no clipping). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="160dp"
+    android:height="160dp"
+    android:viewportWidth="160"
+    android:viewportHeight="160">
+    <group android:translateX="32" android:translateY="32">
+        <!-- Awning (gerai) -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M15.4,21.1 L80.6,21.1 L80.6,38.4 A10.87,10.87 0 0 0 58.9,38.4 A10.87,10.87 0 0 0 37.2,38.4 A10.87,10.87 0 0 0 15.4,38.4 Z" />
+        <!-- Poles -->
+        <path android:fillColor="#FFFFFF" android:pathData="M15.2,38.4 L18.6,38.4 L18.6,48 L15.2,48 Z" />
+        <path android:fillColor="#FFFFFF" android:pathData="M77.4,38.4 L80.8,38.4 L80.8,48 L77.4,48 Z" />
+        <!-- Service bolt (jasa) -->
+        <path
+            android:fillColor="#F2A444"
+            android:pathData="M52.8,42.2 L35.5,61.4 L46.1,61.4 L43.2,78.7 L62.4,55.7 L49.9,55.7 Z" />
+    </group>
+</vector>

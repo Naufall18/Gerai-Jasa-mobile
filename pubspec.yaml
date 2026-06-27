@@ -50,6 +50,7 @@ dependencies:
   freezed_annotation: ^2.4.1
   json_annotation: ^4.8.1
   image_picker: ^1.2.2
+  flutter_svg: ^2.3.0
 
 dev_dependencies:
   flutter_test:
